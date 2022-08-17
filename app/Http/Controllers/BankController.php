@@ -20,4 +20,18 @@ class BankController extends Controller
             return view('home.list-bank');
         }
     }
+
+    public function tambahBankShow(){
+        if(Session::get('login')==null){
+            return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
+        }
+        else{
+            return view('home.tambah-bank');
+        }
+    }
+
+    public function bankProses(Request $request){
+
+        return '';
+    }
 }

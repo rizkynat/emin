@@ -24,6 +24,9 @@ module.exports = {
     fontSize: {
       'small':'0.50rem',
       'middle':'0.75rem'
+    },
+    boxShadow: {
+      outline: '0 0 0 3px rgba(154, 171, 137, 1)',
     }
   },
   plugins: [],

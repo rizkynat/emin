@@ -23,6 +23,14 @@
                     >
                     List Bank
                     </h4>
+                    <div class="mb-4">
+                    <a href="/tambah-bank">
+                      <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+                        Tambah Bank
+                        <span class="ml-2" aria-hidden="true">+</span>
+                      </button>
+                    </a>
+                    </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap">

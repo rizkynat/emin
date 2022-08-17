@@ -30,7 +30,8 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/list-artikel', 'ArtikelController@show')->name('list-artikel.show');
     Route::post('/list-artikel', 'ArtikelController@artikelProses')->name('list-artikel.proses');
     Route::get('/list-bank', 'BankController@show')->name('list-bank.show');
-    Route::post('/list-bank', 'BankController@bankProses')->name('list-bank.proses');
+    Route::get('/tambah-bank', 'BankController@tambahBankShow')->name('tambah-bank.show');
+    Route::post('/tambah-bank', 'BankController@bankProses')->name('tambah-bank.proses');
 });
 
 Route::group(['middleware' => ['guest']], function() {
