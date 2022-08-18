@@ -39,15 +39,6 @@ class RegisterController extends Controller{
             return redirect('register')->with('alert','Isi data dengan baik dan lengkap, Nama editor dan Email harus lebih dari 4 huruf!');
         }
             }
-    
-    public function create(array $data){
-        return Editor::create([
-            'nama_editor'=>$data['nama_editor'],
-            'email_editor'=>$data['email_editor'],
-            'password'=>Hash::make($data['password']),
-            'role'=>$data['role']
-        ]);
-    }
 
     public function logout(){
         Session::flush();

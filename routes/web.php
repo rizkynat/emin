@@ -25,13 +25,19 @@ Route::group(['middleware' => ['guest']], function() {
     //Login Routes
     Route::get('/login', 'LoginController@show')->name('login.show');
     Route::post('/login', 'LoginController@loginProses')->name('login.proses');
+
     Route::get('/register', 'RegisterController@show')->name('register.show');
     Route::post('/register', 'RegisterController@registerProses')->name('register.proses');
+
     Route::get('/list-artikel', 'ArtikelController@show')->name('list-artikel.show');
     Route::post('/list-artikel', 'ArtikelController@artikelProses')->name('list-artikel.proses');
+
     Route::get('/list-bank', 'BankController@show')->name('list-bank.show');
     Route::get('/tambah-bank', 'BankController@tambahBankShow')->name('tambah-bank.show');
-    Route::post('/tambah-bank', 'BankController@bankProses')->name('tambah-bank.proses');
+    Route::post('/tambah-bank', 'BankController@tambahBankProses')->name('tambah-bank.proses');
+    Route::get('/edit-bank/{id_bank}', 'BankController@editBankShow')->name('edit-bank.show');
+    Route::post('/edit-bank/{id_bank}', 'BankController@editBankProses')->name('edit-bank.proses');
+    Route::get('/hapus-bank/{id_bank}', 'BankController@hapusBankProses')->name('hapus-bank.proses');
 });
 
 Route::group(['middleware' => ['guest']], function() {

@@ -11,7 +11,7 @@
             href="#"
           >
           <div class="px-6 flex items-center">
-            <img class="float-left  w-6 h-6" src="images/logo emin.png"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Emin</span>
+            <img class="float-left  w-6 h-6" src="{{asset('images/logo emin.png')}}"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Emin</span>
           </div>
           </a>
           <ul class="mt-6">
@@ -125,7 +125,7 @@
                 aria-haspopup="true"
               >
                 <span class="inline-flex items-center">
-                <img src="images/file-find.png" alt="" class="w-5 h-5">
+                <img src="{{asset('images/file-find.png')}}" alt="" class="w-5 h-5">
                   <span class="ml-4 text-primary-font hover:text-gray-800">Review</span>
                 </span>
                 <svg
@@ -183,7 +183,7 @@
                 aria-haspopup="true"
               >
                 <span class="inline-flex items-center">
-                <img src="images/payment.png" alt="" class="w-5 h-5">
+                <img src="{{asset('images/payment.png')}}" alt="" class="w-5 h-5">
                   <span class="ml-4 text-primary-font">Transaksi</span>
                 </span>
                 <svg
@@ -629,7 +629,7 @@
                 >
                   <img
                     class="object-cover w-6 h-6 rounded-full"
-                    src="images/user-logo.png"
+                    src="{{asset('images/user-logo.png')}}"
                     alt=""
                     aria-hidden="true"
                   />

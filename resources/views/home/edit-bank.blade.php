@@ -11,7 +11,7 @@
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <script src="assets/init-alpine.js"></script>
+    <script src="{{asset('assets/init-alpine.js')}}"></script>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -21,7 +21,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Tambah Bank
+                Edit Bank
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -34,30 +34,30 @@
               </div>
               @endif
 
-                <form action="/tambah-bank" method="post">
+                <form action="{{url('edit-bank/'.$banks[0]->id_bank)}}" method="post">
                     @csrf
                     <label class="block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Nama Bank</span>
-                        <input type="text" name="nama_bank" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="BRI">
+                        <input type="text" value="{{$banks[0]->nama_bank}}" name="nama_bank" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="BRI">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">No Rekening</span>
-                        <input type="number" name="no_rek" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="002345678201">
+                        <input type="number" value="{{$banks[0]->no_rek}}" name="no_rek" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="002345678201">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Atas Nama</span>
-                        <input type="text" name="atas_nama" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="John Orge">
+                        <input type="text" value="{{$banks[0]->atas_nama}}" name="atas_nama" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="John Orge">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Email</span>
-                        <input type="email" name="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="john@gmail.com">
+                        <input type="email" value="{{$banks[0]->email}}" name="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="john@gmail.com">
                     </label>
 
                     <div class="mt-4">
-                    <a href="/tambah-bank">
+                    <a href="{{url('edit-bank/'.$banks[0]->id_bank)}}">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>
