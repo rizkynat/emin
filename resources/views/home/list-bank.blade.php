@@ -12,6 +12,7 @@
       defer
     ></script>
     <script src="assets/init-alpine.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   </head>
   <body>
   @extends('layouts.admin-master')
@@ -20,28 +21,20 @@
   <!--header-->
   <div class="flex justify-center flex-1 lg:mr-32">
               <div
-                class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
+                class="w-full max-w-xl mx-auto focus-within:text-primary-font"
               >
-                <div class="absolute inset-y-0 flex items-center pl-2">
-                  <svg
-                    class="w-4 h-4"
-                    aria-hidden="true"
-                    fill="#707275"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-                <input
-                  class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                  type="text"
-                  placeholder="Cari"
-                  aria-label="Search"
-                />
+                <form action="cari-list-bank" method="get" class="flex items-cente4r">
+                  <input
+                    name="cari"
+                    class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
+                    type="text"
+                    placeholder="Cari"
+                    aria-label="Search"
+                  />
+                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                  </button>
+                </form>
               </div>
             </div>
             <ul class="flex items-center flex-shrink-0 space-x-6">
@@ -236,7 +229,7 @@
                     </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
-                    <table class="w-full whitespace-no-wrap">
+                    <table class="w-full whitespace-no-wrap" id="table-bank">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3">Nama Bank</th>
@@ -248,6 +241,9 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                    @php
+                      $i=1;
+                    @endphp
                     @foreach ($banks as $bank)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
@@ -285,15 +281,35 @@
                         </div>
                       </td>
                       <td class="px-4 py-3">
-                        <label for="small-toggle" class="relative cursor-pointer">
-                            <input type="checkbox" value="" id="small-toggle" class="sr-only peer">
+                        <label for="{{$bank->id_bank}}" class="relative cursor-pointer">
+                            <input type="checkbox" {{$bank->default==true ? 'checked' : ''}} data-id_bank="{{$bank->id_bank}}" id="{{$bank->id_bank}}" class="sr-only peer toggle-class">
                             <div class="w-9 h-5 bg-primary-opacity peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-hover dark:peer-focus:ring-primary-normal rounded-full peer dark:bg- peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-primary-white after:border-primary-hover after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-primary-normal peer-checked:bg-primary-hover"></div>
                             </label>
                       </td>
                     </tr>
+                    @php
+                    $i++
+                    @endphp
                     @endforeach
                   </tbody>
                 </table>
+                <script type="text/javascript">
+                  $(function(){
+                    $('.toggle-class').change(function(){
+                      var default_status = $(this).prop('checked') == true ? 1 : 0;
+                      var id_bank = $(this).data('id_bank');
+                          $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '{{ route('change-default')}}',
+                            data: {'default': default_status, 'id_bank': id_bank},
+                            success: function(data){
+                              console.log('Success')
+                            }
+                          });
+                    });
+                  });
+                </script>
             </div>
             </div>
               <div

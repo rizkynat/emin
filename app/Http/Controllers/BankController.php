@@ -24,6 +24,26 @@ class BankController extends Controller
         }
     }
 
+    public function cari(Request $request){
+        $cari = $request->cari;
+
+        $bank = DB::table('bank');
+        $columns = array('nama_bank','no_rek','atas_nama','email');
+        $resultsArray = array();
+
+        foreach($columns as $column){
+            $bank = $bank->orWhere($column,'like', "%".$cari."%");
+        }
+        $banks = $bank->paginate();
+        return view('home.list-bank', ['banks'=>$banks]);
+    }
+
+    public function changeDefault(Request $request){
+        $banks = Bank::find($request->id_bank);
+        $banks->default = $request->default;
+        $banks->save();
+    }
+
     public function tambahBankShow(){
         if(Session::get('login')==null){
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');

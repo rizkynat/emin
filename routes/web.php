@@ -33,11 +33,14 @@ Route::group(['middleware' => ['guest']], function() {
     Route::post('/list-artikel', 'ArtikelController@artikelProses')->name('list-artikel.proses');
 
     Route::get('/list-bank', 'BankController@show')->name('list-bank.show');
+    Route::get('/cari-list-bank','BankController@cari')->name('cari-list-bank.show');
     Route::get('/tambah-bank', 'BankController@tambahBankShow')->name('tambah-bank.show');
     Route::post('/tambah-bank', 'BankController@tambahBankProses')->name('tambah-bank.proses');
     Route::get('/edit-bank/{id_bank}', 'BankController@editBankShow')->name('edit-bank.show');
     Route::post('/edit-bank/{id_bank}', 'BankController@editBankProses')->name('edit-bank.proses');
     Route::get('/hapus-bank/{id_bank}', 'BankController@hapusBankProses')->name('hapus-bank.proses');
+    Route::get('/change-default', 'BankController@changeDefault')->name('change-default');
+    
 });
 
 Route::group(['middleware' => ['guest']], function() {
