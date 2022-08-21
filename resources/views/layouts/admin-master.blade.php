@@ -109,7 +109,7 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-volume">
                       List Volume
                     </a>
                   </li>
@@ -155,19 +155,19 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="../pages/tambah-barang.php">List Reviewer</a>
+                    <a class="w-full" href="/list-reviewer">List Reviewer</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="lihat_barang.php">
+                    <a class="w-full" href="list-review">
                       List Review
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-status">
                       List Status
                     </a>
                   </li>
@@ -213,40 +213,40 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="../pages/tambah-barang.php">List Invoice</a>
+                    <a class="w-full" href="/list-invoice">List Invoice</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="lihat_barang.php">
+                    <a class="w-full" href="/list-bukti-bayar">
                       List Bukti Bayar
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-kwitansi">
                       List Kwitansi
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="/list-loa">
                       Lihat LOA
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="/list-keuangan">
                       Lihat Keuangan
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="/list-evaluasi">
                       Lihat Evaluasi
                     </a>
                   </li>
@@ -258,7 +258,7 @@
             <a href="/register">
               <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                 Tambah akun
-                <span class="ml-2" aria-hidden="true">+</span>
+                <span class="ml-2 text-lg" aria-hidden="true">+</span>
               </button>
             </a>
           </div>
@@ -390,7 +390,7 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-volume">
                       List Volume
                     </a>
                   </li>
@@ -436,19 +436,19 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="../pages/tambah-barang.php">List Reviewer</a>
+                    <a class="w-full" href="/list-reviewer">List Reviewer</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="lihat_barang.php">
+                    <a class="w-full" href="/lihat-review">
                       List Review
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-status">
                       List Status
                     </a>
                   </li>
@@ -494,40 +494,40 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="../pages/tambah-barang.php">List Invoice</a>
+                    <a class="w-full" href="/list-invoice">List Invoice</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="lihat_barang.php">
+                    <a class="w-full" href="/list-bukti-bayar">
                       List Bukti Bayar
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/tambah_stock.php">
+                    <a  class="w-full" href="/list-kwitansi">
                       List Kwitansi
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="/list-loa">
                       Lihat LOA
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="/list-keuangan">
                       Lihat Keuangan
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="../pages/lihat_stock.php">
+                    <a  class="w-full" href="list-evaluasi">
                       Lihat Evaluasi
                     </a>
                   </li>
@@ -539,7 +539,7 @@
             <a href="/register">
               <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                 Tambah akun
-                <span class="ml-2" aria-hidden="true">+</span>
+                <span class="ml-2 text-lg" aria-hidden="true">+</span>
               </button>
             </a>
           </div>

@@ -25,6 +25,7 @@
               >
                 <form action="cari-list-bank" method="get" class="flex items-cente4r">
                   <input
+                    id="input-bank"
                     name="cari"
                     class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
                     type="text"
@@ -236,14 +237,11 @@
                       <th class="px-4 py-3">No Rekening</th>
                       <th class="px-4 py-3">Atas Nama</th>
                       <th class="px-4 py-3">Email Penerima</th>
-                      <th class="px-4 py-3">Actions</th>
+                      <th class="px-4 py-3">Aksi</th>
                       <th class="px-4 py-3">Atur Default</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    @php
-                      $i=1;
-                    @endphp
                     @foreach ($banks as $bank)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
@@ -271,6 +269,7 @@
                             </svg>
                           </button>
                           </a>
+                        @if($bank->status!=1)
                           <a href="{{url('hapus-bank/'.$bank->id_bank)}}">
                           <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
                             <svg class="w-5 h-5" aria-hidden="true" fill="#9AAB89" viewBox="0 0 20 20">
@@ -278,35 +277,52 @@
                             </svg>
                           </button>
                           </a>
+                        @endif
                         </div>
                       </td>
                       <td class="px-4 py-3">
                         <label for="{{$bank->id_bank}}" class="relative cursor-pointer">
-                            <input type="checkbox" {{$bank->default==true ? 'checked' : ''}} data-id_bank="{{$bank->id_bank}}" id="{{$bank->id_bank}}" class="sr-only peer toggle-class">
+                            <input type="checkbox" {{$bank->status==true ? 'checked' : ''}} data-id_bank="{{$bank->id_bank}}" id="{{$bank->id_bank}}" class="sr-only peer toggle-class">
                             <div class="w-9 h-5 bg-primary-opacity peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-hover dark:peer-focus:ring-primary-normal rounded-full peer dark:bg- peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-primary-white after:border-primary-hover after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-primary-normal peer-checked:bg-primary-hover"></div>
                             </label>
                       </td>
                     </tr>
-                    @php
-                    $i++
-                    @endphp
                     @endforeach
                   </tbody>
                 </table>
                 <script type="text/javascript">
                   $(function(){
                     $('.toggle-class').change(function(){
-                      var default_status = $(this).prop('checked') == true ? 1 : 0;
+                      var status = $(this).prop('checked') == true ? 1 : 0;
                       var id_bank = $(this).data('id_bank');
                           $.ajax({
                             type: 'get',
                             dataType: 'json',
-                            url: '{{ route('change-default')}}',
-                            data: {'default': default_status, 'id_bank': id_bank},
+                            url: '{{ route('change-status-bank')}}',
+                            data: {'status': status, 'id_bank': id_bank},
                             success: function(data){
                               console.log('Success')
                             }
                           });
+                      window.setTimeout( function() {window.location.reload();}, 50);
+                    });
+
+                    $('#input-bank').on('keyup change', function(e){
+                      var search = $(this).val();
+                      var input_value = document.getElementById('input-bank').value;
+                      if(e.which == 13){
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '{{ route('cari-list-bank.show')}}',
+                            data: {'cari': input_value},
+                            success: function(data){
+                              console.log('Success')
+                            }
+                        });
+                        window.setTimeout( function() {window.location.replace('http://127.0.0.1:8000/cari-list-bank?cari='+input_value);}, 50);
+                      }
+                      
                     });
                   });
                 </script>

@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Bank | Emin</title>
+    <title>Tambah Volume | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
+    <script src="{{asset('assets/alpine.min.js')}}" defer></script>
     <script src="{{asset('assets/init-alpine.js')}}"></script>
+    <script src="{{asset('assets/datepicker.js')}}"></script>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -216,7 +214,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Edit Bank
+                Tambah Volume
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -229,30 +227,48 @@
               </div>
               @endif
 
-                <form action="{{url('edit-bank/'.$banks[0]->id_bank)}}" method="post">
+                <form action="/tambah-volume" method="post">
                     @csrf
                     <label class="block text-sm">
-                        <span class="text-gray-700 dark:text-gray-400">Nama Bank</span>
-                        <input type="text" value="{{$banks[0]->nama_bank}}" name="nama_bank" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="BRI">
+                        <span class="text-gray-700 dark:text-gray-400">No Bank</span>
+                        <select name="id_bank" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        @php
+                        $i=1
+                        @endphp
+                        @foreach ($volumes as $volume)
+                            @if($i==1)
+                            <option selected value="{{$volume->id_bank}}">{{$volume->nama_bank}} - {{$volume->no_rek}}</option>
+                            @else
+                            <option value="{{$volume->id_bank}}">{{$volume->nama_bank}} - {{$volume->no_rek}}</option>
+                            @endif
+                            @php
+                            $i++
+                            @endphp
+                        @endforeach
+                        </select>
+                    </label>
+                    <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">Tahun Volume</span>
+                        <div class="relative">
+                          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="#9AAB89" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                          </div>
+                          <input datepicker datepicker-buttons datepicker-autohide datepicker-format="yyyy/mm/dd" type="text" name="tahun" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none pl-10 p-2.5 focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2022/08/19">
+                        </div>
                     </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">No Rekening</span>
-                        <input type="number" value="{{$banks[0]->no_rek}}" name="no_rek" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="002345678201">
+                        <span class="text-gray-700 dark:text-gray-400">No Volume</span>
+                        <input type="text" name="no_volume" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
                     </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Atas Nama</span>
-                        <input type="text" value="{{$banks[0]->atas_nama}}" name="atas_nama" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="John Orge">
-                    </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Email</span>
-                        <input type="email" value="{{$banks[0]->email}}" name="email" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="john@gmail.com">
+                        <span class="text-gray-700 dark:text-gray-400">Harga</span>
+                        <input type="number" name="harga" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
                     </label>
 
                     <div class="mt-4">
-                    <a href="{{url('edit-bank/'.$banks[0]->id_bank)}}">
+                    <a href="/tambah-volume">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>

@@ -38,9 +38,9 @@ class BankController extends Controller
         return view('home.list-bank', ['banks'=>$banks]);
     }
 
-    public function changeDefault(Request $request){
+    public function changeStatus(Request $request){
         $banks = Bank::find($request->id_bank);
-        $banks->default = $request->default;
+        $banks->status = $request->status;
         $banks->save();
     }
 
