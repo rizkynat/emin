@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Artikel | Emin</title>
+    <title>Edit Review | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
-    <script src="assets/init-alpine.js"></script>
+    <script src="{{asset('assets/alpine.min.js')}}" defer></script>
+    <script src="{{asset('assets/init-alpine.js')}}"></script>
+    <script src="{{asset('assets/datepicker.js')}}"></script>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -216,7 +214,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Tambah Artikel
+                Edit Review
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -229,52 +227,88 @@
               </div>
               @endif
 
-                <form action="/tambah-artikel" method="post">
+              
+                    @if($reviews[0]->kategori=='Internal')
+                    <form action="{{url('edit-review/'.$reviews[0]->id_artikel.'/'.$reviews[0]->id_review).'/Internal'}}" method="post">
                     @csrf
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input type="number" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4431">
+                        <span class="text-gray-700 dark:text-gray-400">Id Review</span>
+                        <input readonly type="text" value="{{$reviews[0]->id_review}}" name="id_review" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
                     </label>
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Volume</span>
-                        <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
-                        @php
-                        $i=1
-                        @endphp
-                        @foreach ($artikels as $artikel)
-                            @if($i==1)
-                            <option selected value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Nama Reviewer Internal</span>
+                        <select name="id_reviewer_internal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
+                          @foreach ($data_reviews_internal as $data_review_internal)
+                              @if($reviews[0]->id_reviewer==$data_review_internal->id_reviewer)
+                              <option selected value="{{$reviews[0]->id_reviewer}}">{{$reviews[0]->nama_reviewer}}</option>
+                              @else
+                              <option value="{{$data_review_internal->id_reviewer}}">{{$data_review_internal->nama_reviewer}}</option>
+                              @endif
+                          @endforeach
+                        </select>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Catatan Internal</span>
+                        <select name="catatan_internal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
+                            @if($reviews[0]->catatan=='Re-Submit For Review')
+                            <option selected value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
+                            <option value="Accepted">Accepted</option>
+                            @elseif($reviews[0]->catatan=='Revisi')
+                            <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option selected value="Revisi">Revisi</option>
+                            <option value="Accepted">Accepted</option>
                             @else
-                            <option value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
+                            <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
+                            <option selected value="Accepted">Accepted</option>
                             @endif
-                            @php
-                            $i++
-                            @endphp
+                        </select>
+                    </label>
+
+                    @elseif($reviews[0]->kategori=='Eksternal')
+                    <form action="{{url('edit-review/'.$reviews[0]->id_artikel.'/'.$reviews[0]->id_review.'/Eksternal')}}" method="post">
+                    @csrf
+                    <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">Id Review</span>
+                        <input readonly type="text" value="{{$reviews[0]->id_review}}" name="id_review" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                    </label>
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Nama Reviewer Eskternal</span>
+                        <select name="id_reviewer_eksternal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
+                        @foreach ($data_reviews_eksternal as $data_review_eksternal)
+                            @if($reviews[0]->id_reviewer==$data_review_eksternal->id_reviewer)
+                            <option selected value="{{$reviews[0]->id_reviewer}}">{{$reviews[0]->nama_reviewer}}</option>
+                            @else
+                            <option value="{{$data_review_eksternal->id_reviewer}}">{{$data_review_eksternal->nama_reviewer}}</option>
+                            @endif
                         @endforeach
                         </select>
                     </label>
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Nama Penulis</span>
-                        <input type="text" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Ayu sastro, Haifa">
-                    </label>
 
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Email Penulis</span>
-                        <input type="email" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ayu@gmail.com">
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Catatan Eksternal</span>
+                        <select name="catatan_eksternal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
+                            @if($reviews[0]->catatan=='Re-Submit For Review')
+                            <option selected value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
+                            <option value="Accepted">Accepted</option>
+                            @elseif($reviews[0]->catatan=='Revisi')
+                            <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option selected value="Revisi">Revisi</option>
+                            <option value="Accepted">Accepted</option>
+                            @else
+                            <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
+                            <option selected value="Accepted">Accepted</option>
+                            @endif
+                        </select>
                     </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
-                        <textarea name="judul_artikel" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" rows="3" placeholder="Masukkan Judul artikel."></textarea>
-                    </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Asal Instansi</span>
-                        <input type="text" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Politeknik Caltex Riau">
-                    </label>
+                    @endif
 
                     <div class="mt-4">
-                    <a href="/tambah-volume">
+                    <a href="{{url('edit-review/'.$reviews[0]->id_review)}}">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>

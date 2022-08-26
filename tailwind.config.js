@@ -19,6 +19,10 @@ module.exports = {
         'font':'#707275',
         'white':'#FFFFFF',
         'opacity':'#D5D6D7',
+        'overview':'#3F83F8',
+        'insert':'#FF5A1F',
+        'warning':'#FE3E41',
+        'success':'#3EC47A',
         transparent: 'transparent'
       },
     },
@@ -30,5 +34,7 @@ module.exports = {
       outline: '0 0 0 3px rgba(154, 171, 137, 1)',
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

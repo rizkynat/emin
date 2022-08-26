@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Artikel | Emin</title>
+    <title>Tambah Status | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
@@ -24,25 +24,7 @@
                 class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
               >
                 <div class="absolute inset-y-0 flex items-center pl-2">
-                  <svg
-                    class="w-4 h-4"
-                    aria-hidden="true"
-                    fill="#707275"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
                 </div>
-                <input
-                  class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                  type="text"
-                  placeholder="Cari"
-                  aria-label="Search"
-                />
               </div>
             </div>
             <ul class="flex items-center flex-shrink-0 space-x-6">
@@ -216,7 +198,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Tambah Artikel
+                Tambah Status
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -229,52 +211,21 @@
               </div>
               @endif
 
-                <form action="/tambah-artikel" method="post">
+                <form action="/tambah-status" method="post">
                     @csrf
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input type="number" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4431">
-                    </label>
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Volume</span>
-                        <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
-                        @php
-                        $i=1
-                        @endphp
-                        @foreach ($artikels as $artikel)
-                            @if($i==1)
-                            <option selected value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
-                            @else
-                            <option value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
-                            @endif
-                            @php
-                            $i++
-                            @endphp
-                        @endforeach
-                        </select>
-                    </label>
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Nama Penulis</span>
-                        <input type="text" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Ayu sastro, Haifa">
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Kode Status</span>
+                        <input type="text" name="kode_status" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="wr">
                     </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Email Penulis</span>
-                        <input type="email" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ayu@gmail.com">
+                        <span class="text-gray-700 dark:text-gray-400">Kode Status</span>
+                        <input type="text" name="keterangan_status" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Writing Review">
                     </label>
 
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
-                        <textarea name="judul_artikel" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" rows="3" placeholder="Masukkan Judul artikel."></textarea>
-                    </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Asal Instansi</span>
-                        <input type="text" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Politeknik Caltex Riau">
-                    </label>
-
+                   
                     <div class="mt-4">
-                    <a href="/tambah-volume">
+                    <a href="/tambah-status">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>

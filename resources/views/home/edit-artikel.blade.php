@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Artikel | Emin</title>
+    <title>Edit Artikel | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
-    <script src="assets/init-alpine.js"></script>
+    <script src="{{asset('assets/alpine.min.js')}}" defer></script>
+    <script src="{{asset('assets/init-alpine.js')}}"></script>
+    <script src="{{asset('assets/datepicker.js')}}"></script>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -216,7 +214,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Tambah Artikel
+                Edit Artikel
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -229,23 +227,23 @@
               </div>
               @endif
 
-                <form action="/tambah-artikel" method="post">
+              <form action="{{url('edit-artikel/'.$artikels[0]->id_artikel)}}" method="post">
                     @csrf
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input type="number" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4431">
+                        <input type="text" value="{{$artikels[0]->id_artikel}}" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
                     </label>
-                    <label class="block text-sm mt-4">
+                    <label class="block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Volume</span>
                         <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
                         @php
                         $i=1
                         @endphp
-                        @foreach ($artikels as $artikel)
-                            @if($i==1)
-                            <option selected value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
+                        @foreach ($volumes_status as $volume_status)
+                            @if($artikels[0]->id_volume==$volume_status->id_volume)
+                            <option selected value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
                             @else
-                            <option value="{{$artikel->id_volume}}">{{$artikel->no_volume}}, {{$artikel->tahun}}</option>
+                            <option value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
                             @endif
                             @php
                             $i++
@@ -255,26 +253,26 @@
                     </label>
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Nama Penulis</span>
-                        <input type="text" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Ayu sastro, Haifa">
+                        <input type="text" value="{{$artikels[0]->nama_penulis}}" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Email Penulis</span>
-                        <input type="email" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="ayu@gmail.com">
+                        <input type="text" value="{{$artikels[0]->email_penulis}}" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
-                        <textarea name="judul_artikel" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" rows="3" placeholder="Masukkan Judul artikel."></textarea>
+                        <input type="textarea" value="{{$artikels[0]->judul_artikel}}" name="judul_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Asal Instansi</span>
-                        <input type="text" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Politeknik Caltex Riau">
+                        <input type="text" value="{{$artikels[0]->instansi}}" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
                     </label>
 
                     <div class="mt-4">
-                    <a href="/tambah-volume">
+                    <a href="{{url('edit-volume/'.$artikels[0]->id_volume)}}">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>

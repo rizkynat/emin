@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tambah Volume | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/flowbite.min.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script src="{{asset('assets/alpine.min.js')}}" defer></script>
@@ -162,7 +163,7 @@
                     <div class="text-middle">{{Session::get('nama_editor')}}</div>
                     <div class="text-small mt-1">{{Session::get('email_editor')}}
                     <span class="bg-primary-hover text-primary-white px-0.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{Session::get('role')}}</span></div>
-</div>
+                    </div>
                 </button>
                 <template x-if="isProfileMenuOpen">
                   <ul

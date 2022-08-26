@@ -63,9 +63,9 @@ class BankController extends Controller
 
         if(!$validator->fails()){
             $validated_data = $request->all();
-            $editor = new Bank();
-            $editor->fill($validated_data);
-            $editor->save();
+            $bank = new Bank();
+            $bank->fill($validated_data);
+            $bank->save();
             return redirect('list-bank')->with('alert-success','Data bank berhasil ditambahkan!');
         }else{
             $arrayValidator = $validator->messages();

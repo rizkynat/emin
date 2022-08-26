@@ -30,8 +30,12 @@ Route::group(['middleware' => ['guest']], function() {
     Route::post('/register', 'RegisterController@registerProses')->name('register.proses');
 
     Route::get('/list-artikel', 'ArtikelController@show')->name('list-artikel.show');
+    Route::get('/cari-list-artikel','ArtikelController@cari')->name('cari-list-artikel.show');
     Route::get('/tambah-artikel', 'ArtikelController@tambahArtikelShow')->name('tambah-artikel.show');
     Route::post('/tambah-artikel', 'ArtikelController@tambahArtikelProses')->name('tambah-artikel.proses');
+    Route::get('/edit-artikel/{id_artikel}', 'ArtikelController@editArtikelShow')->name('edit-artikel.show');
+    Route::post('/edit-artikel/{id_artikel}', 'ArtikelController@editArtikelProses')->name('edit-artikel.proses');
+    Route::get('/hapus-artikel/{id_artikel}', 'ArtikelController@hapusArtikelProses')->name('hapus-artikel.proses');
 
     Route::get('/list-bank', 'BankController@show')->name('list-bank.show');
     Route::get('/cari-list-bank','BankController@cari')->name('cari-list-bank.show');
@@ -58,6 +62,25 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/edit-reviewer/{id_reviewer}', 'ReviewerController@editReviewerShow')->name('edit-reviewer.show');
     Route::post('/edit-reviewer/{id_reviewer}', 'ReviewerController@editReviewerProses')->name('edit-reviewer.proses');
     Route::get('/hapus-reviewer/{id_reviewer}', 'ReviewerController@hapusReviewerProses')->name('hapus-reviewer.proses');
+
+    Route::get('/list-review/{id_artikel}', 'ReviewController@show')->name('list-review.show');
+    Route::get('/tambah-review/{id_artikel}', 'ReviewController@tambahReviewShow')->name('tambah-review.show');
+    Route::post('/tambah-review/{id_artikel}', 'ReviewController@tambahReviewProses')->name('tambah-review.proses');
+    Route::get('/edit-review/{id_review}', 'ReviewController@editReviewShow')->name('edit-review.show');
+    Route::post('/edit-review/{id_artikel}/{id_review}/{kategori}', 'ReviewController@editReviewProses')->name('edit-review.proses');
+
+    Route::get('/list-status', 'StatusController@show')->name('list-status.show');
+    Route::get('/tambah-status', 'StatusController@tambahStatusShow')->name('tambah-status.show');
+    Route::post('/tambah-status', 'StatusController@tambahStatusProses')->name('tambah-status.proses');
+    Route::get('/edit-status/{kode_status}', 'StatusController@editStatusShow')->name('edit-status.show');
+    Route::post('/edit-status/{kode_status}', 'StatusController@editStatusProses')->name('edit-status.proses');
+    Route::get('/hapus-status/{kode_status}', 'StatusController@hapusStatusProses')->name('hapus-status.proses');
+
+    Route::get('/list-artstatus/{id_artikel}', 'ArtStatusController@show')->name('list-artstatus.show');
+    Route::get('/tambah-artstatus', 'ArtStatusController@tambahArtStatusShow')->name('tambah-artstatus.show');
+
+    //test
+    Route::get('/check/{id_review}', 'ReviewController@checkReview')->name('check');
     
 });
 

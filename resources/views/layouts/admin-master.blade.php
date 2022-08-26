@@ -160,13 +160,6 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="list-review">
-                      List Review
-                    </a>
-                  </li>
-                  <li
-                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  >
                     <a  class="w-full" href="/list-status">
                       List Status
                     </a>
@@ -441,15 +434,8 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/lihat-review">
-                      List Review
-                    </a>
-                  </li>
-                  <li
-                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  >
                     <a  class="w-full" href="/list-status">
-                      List Status
+                      List Keterangan Status
                     </a>
                   </li>
                 </ul>
