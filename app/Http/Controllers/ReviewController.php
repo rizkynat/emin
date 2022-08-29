@@ -19,6 +19,9 @@ class ReviewController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
+            if(Session::get('role')!='chief editor'){
+                return redirect('list-artikel')->with('alert','Hanya chief editor yang dapat mengakses fitur ini!');
+            }else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $historys_review = DB::select('select id_history_review, id_review, isi_history, tgl_history from history_review');
             $reviews = DB::table('review')
@@ -27,17 +30,22 @@ class ReviewController extends Controller
             ->where('artikel.id_artikel',$id_artikel)
             ->select('review.id_review','review.catatan', 'review.id_artikel', DB::raw("DATE_FORMAT(review.tgl_review, '%d %M %Y') as tanggal"),'reviewer.nama_reviewer','artikel.nama_penulis','artikel.judul_artikel')->paginate(2);
             return view('home.list-review', ['reviews'=>$reviews], ['historys_review'=>$historys_review]);
+            }
         }
     }
 
     public function tambahReviewShow($id_artikel){
         if(Session::get('login')==null){
-            return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
+            return redirect('list-artikel')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
+            if(Session::get('role')!='chief editor'){
+                return redirect('list-artikel')->with('alert','Hanya chief editor yang dapat mengakses fitur ini!');
+            }else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $reviewers = DB::select('select id_reviewer, nama_reviewer, kategori from reviewer');
             return view('home.tambah-review',['reviewers'=>$reviewers])->with('id_artikel',$id_artikel);
+            }
         }
     }
 

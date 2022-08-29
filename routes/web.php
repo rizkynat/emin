@@ -2,16 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {  
@@ -77,10 +67,18 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/hapus-status/{kode_status}', 'StatusController@hapusStatusProses')->name('hapus-status.proses');
 
     Route::get('/list-artstatus/{id_artikel}', 'ArtStatusController@show')->name('list-artstatus.show');
-    Route::get('/tambah-artstatus', 'ArtStatusController@tambahArtStatusShow')->name('tambah-artstatus.show');
+    Route::get('/tambah-artstatus/{id_artikel}', 'ArtStatusController@tambahArtStatusShow')->name('tambah-artstatus.show');
+    Route::post('/tambah-artstatus/{id_artikel}', 'ArtStatusController@tambahArtStatusProses')->name('tambah-artstatus.proses');
+    
+    Route::get('/list-invoice/', 'InvoiceController@show')->name('list-invoice.show');
+    Route::get('/tambah-invoice/', 'InvoiceController@tambahInvoiceShow')->name('tambah-invoice.show');
+    Route::post('/tambah-invoice/', 'InvoiceController@tambahInvoiceProses')->name('tambah-invoice.proses');
+    Route::get('/pdf-invoice/{id_invoice}', 'InvoiceController@pdfInvoiceShow')->name('pdf-invoice.show');
+    Route::get('/download-invoice/{id_invoice}', 'InvoiceController@downloadInvoiceProses')->name('download-invoice.proses');
 
-    //test
-    Route::get('/check/{id_review}', 'ReviewController@checkReview')->name('check');
+
+    //test route
+    Route::get('/test/{id_review}', 'TestController@test')->name('test');
     
 });
 

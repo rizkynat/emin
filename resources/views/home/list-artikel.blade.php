@@ -227,6 +227,14 @@
                             <span class="font-medium">{{Session::get('alert-success')}}</span>
                           </div>
                         </div>
+                      @elseif(\Session::has('alert'))              
+                        <div class="flex mt-4 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                          <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                          <span class="sr-only">Info</span>
+                          <div>
+                            <span class="font-medium">{{Session::get('alert')}}</span>
+                          </div>
+                        </div>
                       @endif
                     </a>
                     </div>
@@ -379,14 +387,15 @@
                       <td class="px-4 py-3">
                         <div class="block items-center text-sm">
                           @if($kode_status->kode_status != 'p')
-                        <span class="flex bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <span class="bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
                           {{$kode_status->keterangan_status}}
                         </span>
                           @else
-                        <span class="flex bg-primary-success/20 text-primary-success/70 text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <span class="bg-primary-success/20 text-primary-success/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
                           {{$kode_status->keterangan_status}}
                         </span>
                           @endif
+                          <div class="flex mt-2">
                           <a href="tambah-artstatus/{{$artikel->id_artikel}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="InsertStatus">
                               <img src="images/insert.png" width="15px">
@@ -394,15 +403,16 @@
                               </a>
                           
                               <a class="" href="list-artstatus/{{$artikel->id_artikel}}">
-                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="OverviewStatus">
+                              <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="OverviewStatus">
                                 <img src="images/overview.png" width="15px">
                               </button>
                             </a>
+                          </div>
                         </div>
                       </td>
                       <td class="px-4 py-3">
                         <div class="block items-center text-sm">
-                          <span class="flex bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                          <span class="bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
                           @if($kode_status->kode_status=='wr')
                                 Section Editor set reviewer
                           @elseif($kode_status->kode_status=='ir')
@@ -411,6 +421,22 @@
                                 Menunggu revisi dari author
                           @elseif($kode_status->kode_status=='rd')
                                 Check plagiarisme
+                          @elseif($kode_status->kode_status=='pd')
+                                Copy editor send author(need revision)
+                          @elseif($kode_status->kode_status=='wpr')
+                                Copy editor proses
+                          @elseif($kode_status->kode_status=='pac')
+                                Copy editor done
+                          @elseif($kode_status->kode_status=='cdd')
+                                Bendahara issue invoice
+                          @elseif($kode_status->kode_status=='ii')
+                                Waiting payment
+                          @elseif($kode_status->kode_status=='wp')
+                                Bendahara approve payment
+                          @elseif($kode_status->kode_status=='plri')
+                                Layout editor publish
+                          @elseif($kode_status->kode_status=='p')
+                                Tidak ada
                           @endif
                           </span>
                         </div>

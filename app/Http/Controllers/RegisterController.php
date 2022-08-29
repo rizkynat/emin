@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller{
     public function show()
@@ -15,6 +16,8 @@ class RegisterController extends Controller{
             return view('auth.register');            
         }
         else{
+            Session::flush();
+            Auth::logout();
             return redirect('login')->with('alert','Akses hanya dapat dilakukan Chief editor');
         }
     }

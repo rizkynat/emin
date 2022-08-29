@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Status Artikel  | Emin</title>
+    <title>List Invoice | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
     @vite('resources/css/app.css')
@@ -210,9 +210,14 @@
             <h4
                     class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     >
-                    List Status Artikel
+                    List Invoice
                     </h4>
                     <div class="mb-4">
+                    <a href="/tambah-invoice">
+                      <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+                        Tambah Invoice
+                        <span class="ml-2" aria-hidden="true">+</span>
+                      </button>
                       @if(\Session::has('alert-success'))              
                         <div class="flex mt-4 p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                           <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
@@ -221,37 +226,54 @@
                             <span class="font-medium">{{Session::get('alert-success')}}</span>
                           </div>
                         </div>
+                      @elseif(\Session::has('alert'))              
+                        <div class="flex mt-4 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                          <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                          <span class="sr-only">Info</span>
+                          <div>
+                            <span class="font-medium">{{Session::get('alert')}}</span>
+                          </div>
+                        </div>
                       @endif
-                    </div>
-                    <div class="w-full h-20 px-4 py-5 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            <span class="font-semibold">Judul Artikel  :</span> <span class="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"> {{$artstatuss[0]->judul_artikel}}</span></br>
-                        </p>
-                        <p class="text-sm text-gray-600 mt-2 dark:text-gray-400">
-                            <span class="font-semibold">Nama Penulis:</span> <span class="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">{{$artstatuss[0]->nama_penulis}}</span>
-                        </p>
+                    </a>
                     </div>
             <div class="w-full overflow-hidden mt-4 rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap" id="table-bank">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Keterangan Status</th>
-                      <th class="px-4 py-3">Tanggal</th>
-                      <th class="px-4 py-3">File</th>
+                      <th class="px-4 py-3">Judul Artikel</th>
+                      <th class="px-4 py-3">No Invoice</th>
+                      <th class="px-4 py-3">File Invoice</th>
+                      <th class="px-4 py-3">Tanggal Invoice</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    @foreach ($artstatuss as $artstatus)
+                    @foreach ($invoices as $invoice)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3 text-sm">
-                      {{$artstatus->keterangan_status}}
+                      {{$invoice->judul_artikel}}
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">{{$artstatus->tanggal}}</p>
+                      <p class="truncate">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}</p>
                       </td>
-                      <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">---</p>
+                      <td class="px-4 py-3 text-sm">
+                      <div class="flex items-center space-x-4 text-sm">
+                            <a href="pdf-invoice/{{$invoice->id_invoice}}" target="_blank">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                                <img src="images/pdf.png" width="15px">
+                              </button>
+                            </a>
+
+                            <a href="download-invoice/{{$invoice->id_invoice}}" target="_blank">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                                <img src="images/download.png" width="15px">
+                              </button>
+                            </a>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                      {{$invoice->tgl_invoice}}
                       </td>
                     </tr>
                     @endforeach
@@ -259,7 +281,6 @@
                 </table>
             </div>
             </div>
-             
             </div>
             <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 @endsection
