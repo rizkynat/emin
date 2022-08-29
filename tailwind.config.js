@@ -23,6 +23,7 @@ module.exports = {
         'insert':'#FF5A1F',
         'warning':'#FE3E41',
         'success':'#3EC47A',
+        'kuning':'#FDB21D',
         transparent: 'transparent'
       },
     },

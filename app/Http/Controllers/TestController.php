@@ -33,10 +33,12 @@ class TestController extends Controller
         ->join('invoice', 'invoice.id_artikel','=','artikel.id_artikel')
         ->join('volume', 'volume.id_volume','=','artikel.id_volume')
         ->where('invoice.id_invoice',$id_invoice)
-        ->select('invoice.id_invoice', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
+        ->select('invoice.id_invoice', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%d %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
         $a = asset('images/layout_invoice.jpg');
         $en = base64_encode($a);
-        return $invoices[0]->nama_penulis;
+        
+        $checkInvoices = DB::select('select count(*) as jumlah from invoice where id_artikel='.$id_invoice);
+        return asset('images/invoices/');
     }
 
 

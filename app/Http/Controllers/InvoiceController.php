@@ -51,14 +51,15 @@ class InvoiceController extends Controller
 
         if(!$validator->fails()){
             $id_artikel = $request->id_artikel;
+            $status = '1';
 
             DB::insert('insert into invoice (id_artikel) values (?)', [$id_artikel]);
             
             DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['ii', $id_artikel]);
-            DB::update('update artikel set status=1 id_artikel=?',[$id_artikel]);
+            DB::update('update artikel set status=? where id_artikel=?',[$status, $id_artikel]);
 
                  
-            return redirect('list-invoice/')->with('alert','Data invoice berhasil ditambahkan');
+            return redirect('list-invoice/')->with('alert-success','Data invoice berhasil ditambahkan');
         }else{
             return redirect('tambah-invoice/')->with('alert','Isi data dengan baik dan lengkap');
         }
@@ -78,7 +79,7 @@ class InvoiceController extends Controller
             ->join('invoice', 'invoice.id_artikel','=','artikel.id_artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
             ->where('invoice.id_invoice',$id_invoice)
-            ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
+            ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%d %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
             return view('home.pdf-invoice', ['invoices'=>$invoices, 'banks'=>$banks]);
         }
     }
@@ -95,7 +96,7 @@ class InvoiceController extends Controller
         ->join('invoice', 'invoice.id_artikel','=','artikel.id_artikel')
         ->join('volume', 'volume.id_volume','=','artikel.id_volume')
         ->where('invoice.id_invoice',$id_invoice)
-        ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
+        ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%d %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
         // share data to view
         $pdf = PDF::loadView('home.pdf-invoice', ['invoices'=>$invoices, 'banks'=>$banks]);
         $pdf->setOptions(['isRemoteEnabled' => true]);

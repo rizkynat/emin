@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('status', function(Blueprint $table){
+            $table->increments('id_status');
             $table->char('kode_status', 15)->unique();
             $table->string('keterangan_status');
         });

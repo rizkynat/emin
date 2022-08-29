@@ -76,6 +76,10 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/pdf-invoice/{id_invoice}', 'InvoiceController@pdfInvoiceShow')->name('pdf-invoice.show');
     Route::get('/download-invoice/{id_invoice}', 'InvoiceController@downloadInvoiceProses')->name('download-invoice.proses');
 
+    Route::get('/list-bayar/', 'BayarController@show')->name('list-bayar.show');
+    Route::get('/upload-bayar/', 'BayarController@tambahBayarShow')->name('tambah-bayar.show');
+    Route::post('/upload-bayar/', 'BayarController@tambahBayarProses')->name('tambah-bayar.proses');
+
 
     //test route
     Route::get('/test/{id_review}', 'TestController@test')->name('test');

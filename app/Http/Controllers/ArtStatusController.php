@@ -20,12 +20,15 @@ class ArtStatusController extends Controller
         }
         else{
             DB::statement("SET lc_time_names = 'id_ID';");
+
+            $invoices = DB::select('select * from invoice where id_artikel='.$id_artikel);
+            $checkInvoices = DB::select('select count(*) as jumlah from invoice where id_artikel='.$id_artikel);
             $artstatuss = DB::table('artikel_status')
             ->join('status', 'artikel_status.kode_status','=','status.kode_status')
             ->join('artikel', 'artikel_status.id_artikel','=','artikel.id_artikel')
             ->where('artikel.id_artikel',$id_artikel)
-            ->select('status.keterangan_status','artikel.judul_artikel','artikel.nama_penulis', DB::raw("DATE_FORMAT(artikel_status.tanggal, '%d %M %Y, %H:%i') as tanggal"))->get();
-            return view('home.list-artstatus', ['artstatuss'=>$artstatuss]);
+            ->select('artikel.id_artikel','status.keterangan_status','artikel.judul_artikel','artikel.nama_penulis', DB::raw("DATE_FORMAT(artikel_status.tanggal, '%d %M %Y, %H:%i') as tanggal"))->get();
+            return view('home.list-artstatus', ['artstatuss'=>$artstatuss, 'invoices'=>$invoices,'checkInvoices'=>$checkInvoices]);
         }
     }
 

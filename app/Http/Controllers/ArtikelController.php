@@ -32,11 +32,13 @@ class ArtikelController extends Controller
             ->join('artikel', 'artikel.id_artikel','=','review.id_artikel')
             ->select('review.id_artikel')
             ->distinct()->get();
+
+            $invoices = DB::select('select * from invoice');
             
             $artikels = DB::table('artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
             ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->paginate(5);
-            return view('home.list-artikel',['artikels'=>$artikels,'checks'=>$checkId_artikel,'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews]);
+            return view('home.list-artikel',['artikels'=>$artikels,'checks'=>$checkId_artikel,'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'invoices'=>$invoices]);
         }
     }
 

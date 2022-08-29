@@ -387,7 +387,7 @@
                       <td class="px-4 py-3">
                         <div class="block items-center text-sm">
                           @if($kode_status->kode_status != 'p')
-                        <span class="bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <span class="bg-primary-insert/20 text-primary-insert text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
                           {{$kode_status->keterangan_status}}
                         </span>
                           @else
@@ -412,7 +412,7 @@
                       </td>
                       <td class="px-4 py-3">
                         <div class="block items-center text-sm">
-                          <span class="bg-primary-insert/20 text-primary-insert/70 text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                          <span class="bg-primary-kuning/20 text-primary-kuning text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
                           @if($kode_status->kode_status=='wr')
                                 Section Editor set reviewer
                           @elseif($kode_status->kode_status=='ir')
@@ -427,7 +427,7 @@
                                 Copy editor proses
                           @elseif($kode_status->kode_status=='pac')
                                 Copy editor done
-                          @elseif($kode_status->kode_status=='cdd')
+                          @elseif($kode_status->kode_status=='ced')
                                 Bendahara issue invoice
                           @elseif($kode_status->kode_status=='ii')
                                 Waiting payment
@@ -440,6 +440,13 @@
                           @endif
                           </span>
                         </div>
+                      </td>
+                      <td class="px-4 py-3 text-xs">
+                      @foreach($invoices as $invoice)
+                      @if($artikel->id_artikel == $invoice->id_artikel and $kode_status->kode_status == 'ii')
+                      <a class="text-primary-normal font-semibold underline" href="{{asset('download-invoice/'.$invoice->id_invoice)}}">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}</a>
+                      @endif
+                      @endforeach
                       </td>
                       @endif
                       @endforeach
