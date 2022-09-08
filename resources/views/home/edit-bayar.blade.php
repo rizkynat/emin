@@ -3,13 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Artikel | Emin</title>
+    <title>Edit Bukti Bayar | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/flowbite.min.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script src="{{asset('assets/alpine.min.js')}}" defer></script>
     <script src="{{asset('assets/init-alpine.js')}}"></script>
     <script src="{{asset('assets/datepicker.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+      input[type=file]::file-selector-button {
+        background-color: #9AAB89;
+      }
+
+      input[type=file]::file-selector-button:hover {
+        background-color: #B5C7A3;
+      }
+    </style>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -162,7 +173,7 @@
                     <div class="text-middle">{{Session::get('nama_editor')}}</div>
                     <div class="text-small mt-1">{{Session::get('email_editor')}}
                     <span class="bg-primary-hover text-primary-white px-0.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{Session::get('role')}}</span></div>
-</div>
+                    </div>
                 </button>
                 <template x-if="isProfileMenuOpen">
                   <ul
@@ -214,7 +225,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Edit Artikel
+                Edit Bukti Bayar
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(\Session::has('alert'))              
@@ -227,52 +238,45 @@
               </div>
               @endif
 
-              <form action="{{url('edit-artikel/'.$artikels[0]->id_artikel)}}" method="post">
+                <form action="/edit-bayar/{{$pembayarans[0]->id_bayar}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input readonly type="text" value="{{$artikels[0]->id_artikel}}" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                        <span class="text-gray-700 dark:text-gray-400">Id Invoice</span>
+                        <input readonly type="text" value="{{str_pad(substr($pembayarans[0]->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     </label>
+                    
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Volume</span>
-                        <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
-                        @php
-                        $i=1
-                        @endphp
-                        @foreach ($volumes_status as $volume_status)
-                            @if($artikels[0]->id_volume==$volume_status->id_volume)
-                            <option selected value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
-                            @else
-                            <option value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
-                            @endif
-                            @php
-                            $i++
-                            @endphp
-                        @endforeach
-                        </select>
-                    </label>
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Nama Penulis</span>
-                        <input type="text" value="{{$artikels[0]->nama_penulis}}" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                        <span class="text-gray-700 dark:text-gray-400">Nama Pengirim</span>
+                        <input type="text" name="nama_pengirim" value="{{$pembayarans[0]->nama_pengirim}}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Email Penulis</span>
-                        <input type="text" value="{{$artikels[0]->email_penulis}}" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
-                    </label>
+                    <span class="text-gray-700 dark:text-gray-400">Upload Bukti Pembayaran</span>
+                    <input onchange="readURL(this);" type="file" name="file_upload" value="{{$pembayarans[0]->bukti_bayar}}" class="block text-sm mt-1 text-slate-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-primary-normal
+                    "/>
+
+                    <div class="relative mt-2 hidden w-14 h-14 mr-3 md:block">
+                            <img id="preview" class="object-cover w-full h-full border-1 rounded-sm" src="{{asset('images/bukti_bayar/'.$pembayarans[0]->bukti_bayar)}}" alt="" loading="lazy">
+                            <div class="absolute inset-0  shadow-inner" aria-hidden="true"></div>
+                          </div>
+                  </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
-                        <input type="textarea" value="{{$artikels[0]->judul_artikel}}" name="judul_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
-                    </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Asal Instansi</span>
-                        <input type="text" value="{{$artikels[0]->instansi}}" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
+                        <span class="text-gray-700 dark:text-gray-400">Tanggal Transfer</span>
+                        <div class="relative">
+                          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="#9AAB89" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                          </div>
+                          <input datepicker datepicker-buttons datepicker-autohide datepicker-format="yyyy/mm/dd" type="text" value="{{$pembayarans[0]->tgl_bayar}}" name="tgl_bayar" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none pl-10 p-2.5 focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                        </div>
                     </label>
 
                     <div class="mt-4">
-                    <a href="{{url('edit-volume/'.$artikels[0]->id_volume)}}">
+                    <a href="/edit-bayar/{{$pembayarans[0]->id_bayar}}">
                     <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
                         Batal
                     </button>
@@ -283,4 +287,20 @@
                     </div>
                 </form>
             </div>
+            <script type="text/javascript">
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('#preview')
+                                .attr('src', e.target.result)
+                                .width(56)
+                                .height(56);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+            </script>
 @endsection

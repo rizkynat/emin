@@ -24,11 +24,14 @@ module.exports = {
         'warning':'#FE3E41',
         'success':'#3EC47A',
         'kuning':'#FDB21D',
+        'pink':'#D61F69',
+        'purple':'#7E3AF2',
         transparent: 'transparent'
       },
     },
     fontSize: {
       'small':'0.50rem',
+      '06rem':'0.60rem',
       'middle':'0.75rem'
     },
     boxShadow: {

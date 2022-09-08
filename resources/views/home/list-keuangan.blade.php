@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Bukti Bayar | Emin</title>
+    <title>List Keuangan | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
     @vite('resources/css/app.css')
@@ -210,15 +210,14 @@
             <h4
                     class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     >
-                    List Bukti Bayar
+                    List Keuangan
                     </h4>
                     <div class="mb-4">
-                    <a href="/upload-bayar">
+                    <a href="/tambah-keuangan">
                       <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
-                        Upload Bukti Bayar
+                        Tambah Keuangan
                         <span class="ml-2" aria-hidden="true">+</span>
                       </button>
-                    </a>
                       @if(\Session::has('alert-success'))              
                         <div class="flex mt-4 p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                           <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
@@ -227,51 +226,123 @@
                             <span class="font-medium">{{Session::get('alert-success')}}</span>
                           </div>
                         </div>
+                      @elseif(\Session::has('alert'))              
+                        <div class="flex mt-4 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                          <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                          <span class="sr-only">Info</span>
+                          <div>
+                            <span class="font-medium">{{Session::get('alert')}}</span>
+                          </div>
+                        </div>
                       @endif
+                    </a>
                     </div>
+                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+              <!-- Card -->
+              <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
+                  <img src="{{asset('images/balance.png')}}" class="w-5 h-5"/>
+                </div>
+                <div>
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Sisa uang
+                  </p>
+                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                    @if($uangKeluar[0]->nominal == NULL)
+                    Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $uangMasuk[0]->nominal)), 0)}}
+                    @elseif($uangMasuk[0]->nominal == NULL)
+                    Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $uangKeluar[0]->nominal)), 0)}}
+                    @else
+                    @php($total = ($uangMasuk[0]->nominal)-($uangKeluar[0]->nominal))
+                    Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $total)), 0)}}
+                    @endif
+                  </p>
+                </div>
+              </div>
+              <!-- Card -->
+              <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="p-3 mr-4 text-red-500 bg-red-100 rounded-full dark:text-green-100 dark:bg-green-500">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Uang keluar
+                  </p>
+                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                    @if($uangKeluar[0]->nominal == NULL)
+                    Rp 0
+                    @else
+                    Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $uangKeluar[0]->nominal)), 0)}}
+                    @endif
+                  </p>
+                </div>
+              </div>
+              <!-- Card -->
+              <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Uang masuk
+                  </p>
+                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                    @if($uangMasuk[0]->nominal == NULL)
+                    Rp 0
+                    @else
+                    Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $uangMasuk[0]->nominal)), 0)}}
+                    @endif
+                  </p>
+                </div>
+              </div>
+            </div>
             <div class="w-full overflow-hidden mt-4 rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap" id="table-bank">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">No Invoice</th>
-                      <th class="px-4 py-3">Nama Pengirim</th>
-                      <th class="px-4 py-3">Bukti Bayar</th>
-                      <th class="px-4 py-3">Tanggal Transfer</th>
-                      <th class="px-4 py-3">Aksi</th>
+                      <th class="px-4 py-3">Deskripsi</th>
+                      <th class="px-4 py-3">Status</th>
+                      <th class="px-4 py-3">Foto Kwitansi</th>
+                      <th class="px-4 py-3">Nominal</th>
+                      <th class="px-4 py-3">Tanggal Keuangan</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    @foreach ($pembayarans as $pembayaran)
+                    @foreach ($keuangans as $keuangan)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3 text-sm">
-                      {{str_pad(substr($pembayaran->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}
+                      {{$keuangan->deskripsi}}
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">{{$pembayaran->nama_pengirim}}</p>
+                      <p class="truncate">{{$keuangan->status}}</p>
                       </td>
-                      <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">
-                        <a href="{{asset('images/bukti_bayar/'.$pembayaran->bukti_bayar)}}">
-                        <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="InsertStatus">
-                        <img src="images/image.png" width="15px">
-                        </button>
+                      <td class="px-4 py-3 text-sm">
+                      <div class="flex items-center space-x-4 text-sm">
+                        @if($keuangan->status == 'Uang masuk')
+                        <a href="{{asset('images/bukti_bayar/'.$keuangan->foto_kwitansi)}}" target="_blank">
+                            <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                            <img src="images/image.png" width="15px">
+                            </button>
                         </a>
-                      </p>
-                      </td>
-                      <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">{{$pembayaran->tgl_bayar}}</p>
-                      </td>
-                      <td class="px-4 py-3">
-                        <div class="flex items-center space-x-4 text-sm">
-                          <a href="edit-bayar/{{$pembayaran->id_bayar}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
-                            <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
-                              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                            </svg>
-                          </button>
-                          </a>
+                        @else
+                        <a href="{{asset('images/keuangan/'.$keuangan->foto_kwitansi)}}" target="_blank">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                                <img src="images/image.png" width="15px">
+                              </button>
+                            </a>
+                            @endif
                         </div>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                      Rp {{number_format(sprintf( preg_replace("/[^0-9.]/", "", $keuangan->nominal)), 0)}}
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                      {{$keuangan->tgl_keuangan}}
                       </td>
                     </tr>
                     @endforeach

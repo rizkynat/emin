@@ -20,12 +20,14 @@ Route::group(['middleware' => ['guest']], function() {
     Route::post('/register', 'RegisterController@registerProses')->name('register.proses');
 
     Route::get('/list-artikel', 'ArtikelController@show')->name('list-artikel.show');
-    Route::get('/cari-list-artikel','ArtikelController@cari')->name('cari-list-artikel.show');
+    Route::get('/cari-artikel','ArtikelController@cari')->name('cari-list-artikel.show');
     Route::get('/tambah-artikel', 'ArtikelController@tambahArtikelShow')->name('tambah-artikel.show');
     Route::post('/tambah-artikel', 'ArtikelController@tambahArtikelProses')->name('tambah-artikel.proses');
     Route::get('/edit-artikel/{id_artikel}', 'ArtikelController@editArtikelShow')->name('edit-artikel.show');
     Route::post('/edit-artikel/{id_artikel}', 'ArtikelController@editArtikelProses')->name('edit-artikel.proses');
     Route::get('/hapus-artikel/{id_artikel}', 'ArtikelController@hapusArtikelProses')->name('hapus-artikel.proses');
+    Route::get('/excel-artikel', 'ArtikelController@excelArtikelProses')->name('excel-artikel.proses');
+    Route::get('/csv-artikel', 'ArtikelController@csvArtikelProses')->name('csv-artikel.proses');
 
     Route::get('/list-bank', 'BankController@show')->name('list-bank.show');
     Route::get('/cari-list-bank','BankController@cari')->name('cari-list-bank.show');
@@ -56,7 +58,7 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/list-review/{id_artikel}', 'ReviewController@show')->name('list-review.show');
     Route::get('/tambah-review/{id_artikel}', 'ReviewController@tambahReviewShow')->name('tambah-review.show');
     Route::post('/tambah-review/{id_artikel}', 'ReviewController@tambahReviewProses')->name('tambah-review.proses');
-    Route::get('/edit-review/{id_review}', 'ReviewController@editReviewShow')->name('edit-review.show');
+    Route::get('/edit-review/{id_review}/{id_artikel}', 'ReviewController@editReviewShow')->name('edit-review.show');
     Route::post('/edit-review/{id_artikel}/{id_review}/{kategori}', 'ReviewController@editReviewProses')->name('edit-review.proses');
 
     Route::get('/list-status', 'StatusController@show')->name('list-status.show');
@@ -79,7 +81,21 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/list-bayar/', 'BayarController@show')->name('list-bayar.show');
     Route::get('/upload-bayar/', 'BayarController@tambahBayarShow')->name('tambah-bayar.show');
     Route::post('/upload-bayar/', 'BayarController@tambahBayarProses')->name('tambah-bayar.proses');
+    Route::get('/edit-bayar/{id_bayar}', 'BayarController@editBayarShow')->name('edit-bayar.show');
+    Route::post('/edit-bayar/{id_bayar}', 'BayarController@editBayarProses')->name('edit-bayar.proses');
+    Route::get('/hapus-bayar/{id_bayar}/{id_invoice}', 'BayarController@hapusBayarProses')->name('hapus-bayar.proses');
+    
+    Route::get('/list-kwitansi/', 'KwitansiController@show')->name('list-kwitansi.show');
+    Route::get('/pdf-kwitansi/{id_kwitansi}', 'KwitansiController@pdfKwitansiShow')->name('pdf-kwitansi.show');
+    Route::get('/download-kwitansi/{id_kwitansi}', 'KwitansiController@downloadKwitansiProses')->name('download-kwitansi.proses');
 
+    Route::get('/list-loa/', 'LOAController@show')->name('list-loa.show');
+    Route::get('/pdf-loa/{id_loa}', 'LOAController@pdfLOAShow')->name('pdf-loa.show');
+    Route::get('/download-loa/{id_loa}', 'LOAController@downloadLOAProses')->name('download-loa.proses');
+
+    Route::get('/list-keuangan/', 'KeuanganController@show')->name('list-keuangan.show');
+    Route::get('/tambah-keuangan/', 'KeuanganController@tambahKeuanganShow')->name('tambah-keuangan.show');
+    Route::post('/tambah-keuangan/', 'KeuanganController@tambahKeuanganProses')->name('tambah-keuangan.proses');
 
     //test route
     Route::get('/test/{id_review}', 'TestController@test')->name('test');

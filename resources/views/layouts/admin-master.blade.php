@@ -3,7 +3,7 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
     <aside
-        class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+        class="z-20 hidden w-50 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a
@@ -234,13 +234,6 @@
                   >
                     <a  class="w-full" href="/list-keuangan">
                       Lihat Keuangan
-                    </a>
-                  </li>
-                  <li
-                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  >
-                    <a  class="w-full" href="/list-evaluasi">
-                      Lihat Evaluasi
                     </a>
                   </li>
                 </ul>

@@ -223,7 +223,7 @@
                         </div>
                       @endif
                     </div>
-                    <div class="w-full h-20 px-4 py-5 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <div class="w-full px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             <span class="font-semibold">Judul Artikel  :</span> <span class="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"> {{$artstatuss[0]->judul_artikel}}</span></br>
                         </p>
@@ -256,13 +256,15 @@
                       @if($checkInvoices[0]->jumlah != 1)
                       ---
                       @else
-                      @foreach($invoices as $invoice)
-                      @if($artstatus->id_artikel == $invoice->id_artikel and $artstatus->keterangan_status == 'Issue invoice')
-                        <a class="text-primary-normal underline" href="{{asset('download-invoice/'.$invoice->id_invoice)}}">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}</a>
+                      @if( $artstatus->kode_status == 'ii')
+                        <a class="text-primary-normal underline" href="{{asset('download-invoice/'.$invoice[0]->id_invoice)}}">Invoice</a>
+                      @elseif($artstatus->kode_status == 'plri')
+                      <a target="e_blank" class="text-primary-normal underline" href="{{asset('download-loa/'.$files[0]->id_loa)}}">LOA</a>
+                      <a target="e_blank" class="text-primary-normal underline" href="{{asset('download-kwitansi/'.$files[0]->id_kwitansi)}}">Kwitansi</a>
+                      <a target="e_blank" class="text-primary-normal underline" href="{{asset('images/bukti_bayar/'.$files[0]->bukti_bayar)}}">Bukti Bayar</a>
                       @else
                         ---
                       @endif
-                      @endforeach
                       @endif
                       </p>
                       </td>

@@ -230,8 +230,8 @@
                 <form action="/tambah-review/{{$id_artikel}}" method="post">
                     @csrf
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input readonly type="text" value="{{$id_artikel}}" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                        <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
+                        <input readonly type="text" value="{{$artikel[0]->judul_artikel}}" name="judul_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     </label>
                     
                     <label class="block text-sm mt-4">

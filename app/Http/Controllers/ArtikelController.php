@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\ArtikelExport;
 use DB;
+use Excel;
 
 class ArtikelController extends Controller
 {
@@ -27,18 +29,21 @@ class ArtikelController extends Controller
             $reviews = DB::select('select * from review');
 
             $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
+            $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
+            $checkReviews = DB::select("select count(*) as jumlah, id_artikel from review group by id_artikel");
 
-            $checkId_artikel = DB::table('review')
-            ->join('artikel', 'artikel.id_artikel','=','review.id_artikel')
-            ->select('review.id_artikel')
-            ->distinct()->get();
-
-            $invoices = DB::select('select * from invoice');
+            
+            $files = DB::table('kwitansi')
+            ->join('pembayaran', 'kwitansi.id_bayar', '=', 'pembayaran.id_bayar')
+            ->join('invoice', 'invoice.id_invoice','=','pembayaran.id_invoice')
+            ->join('artikel','artikel.id_artikel', '=','invoice.id_artikel')
+            ->join('loa', 'loa.id_artikel', '=', 'artikel.id_artikel')
+            ->select('artikel.id_artikel','invoice.id_invoice','pembayaran.bukti_bayar', 'loa.id_loa', 'kwitansi.id_kwitansi')->get();
             
             $artikels = DB::table('artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
-            ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->paginate(5);
-            return view('home.list-artikel',['artikels'=>$artikels,'checks'=>$checkId_artikel,'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'invoices'=>$invoices]);
+            ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->paginate(10);
+            return view('home.list-artikel',['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
         }
     }
 
@@ -47,10 +52,19 @@ class ArtikelController extends Controller
 
         DB::statement("SET lc_time_names = 'id_ID';");
 
-        $kode_statuss = DB::table('artikel_status')
-        ->join('artikel','artikel.id_artikel','=','artikel_status.id_artikel')
-        ->join('status','status.kode_status','=','artikel_status.kode_status')
-        ->select('artikel_status.id_artikel','artikel_status.kode_status','status.keterangan_status')->get();
+        $reviews = DB::select('select * from review');
+
+        $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
+        $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
+        $checkReviews = DB::select("select count(*) as jumlah, id_artikel from review group by id_artikel");
+
+        
+        $files = DB::table('kwitansi')
+        ->join('pembayaran', 'kwitansi.id_bayar', '=', 'pembayaran.id_bayar')
+        ->join('invoice', 'invoice.id_invoice','=','pembayaran.id_invoice')
+        ->join('artikel','artikel.id_artikel', '=','invoice.id_artikel')
+        ->join('loa', 'loa.id_artikel', '=', 'artikel.id_artikel')
+        ->select('artikel.id_artikel','invoice.id_invoice','pembayaran.bukti_bayar', 'loa.id_loa', 'kwitansi.id_kwitansi')->get();
 
         $checkId_artikel = DB::table('review')
         ->join('artikel', 'artikel.id_artikel','=','review.id_artikel')
@@ -67,7 +81,7 @@ class ArtikelController extends Controller
             $artikel = $artikel->orWhere($column,'like', "%".$cari."%");
         }
         $artikels = $artikel->paginate();
-        return view('home.list-artikel', ['artikels'=>$artikels,'checks'=>$checkId_artikel,'kode_statuss'=>$kode_statuss]);
+        return view('home.list-artikel', ['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
     }
 
     public function tambahArtikelShow(){
@@ -134,7 +148,23 @@ class ArtikelController extends Controller
     }
 
     public function hapusArtikelProses(Request $request, $id_artikel){
+        
+        $invoice = DB::table('invoice')->where('id_artikel',$id_artikel)->delete();        
+        $artikel_status = DB::table('artikel_status')->where('id_artikel',$id_artikel)->delete();
+        $id_reviews = DB::select('select id_review from review where id_artikel=?',[$id_artikel]);
+        foreach($id_reviews as $id_review){
+            $review = DB::table('history_review')->where('id_review',$id_review->id_review)->delete();
+        }
+        $review = DB::table('review')->where('id_artikel',$id_artikel)->delete();      
         $artikel = DB::table('artikel')->where('id_artikel',$id_artikel)->delete();
         return redirect('list-artikel')->with('alert-success','Data artikel berhasil dihapus!');
+    }
+
+    public function excelArtikelProses(Request $request){
+        Return Excel::download(new ArtikelExport, 'Data_Artikel.xlsx');
+    }
+
+    public function csvArtikelProses(Request $request){
+        Return Excel::download(new ArtikelExport, 'Data_Artikel.csv');
     }
 }

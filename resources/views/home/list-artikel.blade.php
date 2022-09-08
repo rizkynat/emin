@@ -6,6 +6,7 @@
     <title>List Artikel | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="assets/scrollbar.css" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script
@@ -25,18 +26,21 @@
               <div
                 class="w-full max-w-xl mx-auto focus-within:text-primary-font"
               >
-                <form action="cari-list-artikel" method="get" class="relative flex items-cente4r">
+                <form action="cari-artikel" method="get" class="relative">
+                  <div class="flex items-center">
                   <input
                     id="input-artikel"
                     name="cari"
                     class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
                     type="text"
-                    placeholder="Cari"
+                    tabindex="99"
+                    placeholder="Cari artikel"
                     aria-label="Search"
                   />
-                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                   </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -44,7 +48,7 @@
               <!-- Theme toggler -->
               <li class="flex">
                 <button
-                  class="rounded-md focus:outline-none focus:shadow-outline-purple"
+                  class="rounded-md focus:outline-none focus:shadow-outline-green"
                   @click="toggleTheme"
                   aria-label="Toggle color mode"
                 >
@@ -79,7 +83,7 @@
               <!-- Notifications menu -->
               <li class="relative">
                 <button
-                  class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                  class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-green"
                   @click="toggleNotificationsMenu"
                   @keydown.escape="closeNotificationsMenu"
                   aria-label="Notifications"
@@ -143,7 +147,7 @@
               <!-- Profile menu -->
               <li class="relative">
                 <button
-                  class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none flex items-center"
+                  class="align-middle rounded-lg focus:shadow-outline-green focus:outline-none flex items-center"
                   @click="toggleProfileMenu"
                   @keydown.escape="closeProfileMenu"
                   aria-label="Account"
@@ -200,7 +204,7 @@
             </ul>
           </div>
         </header>
-        <main class="h-full pb-16 overflow-y-auto">
+        <main class="scrollbar h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
           <div class="container px-6 mx-auto grid">
             <h2
@@ -211,14 +215,27 @@
             <h4
                     class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     >
-                    List Artikel
+                    <div class="bg-primary-normal w-60 h-8 shadow-md rounded-r-3xl"><span class="ml-4 text-primary-white">List Artikel</span></div>
                     </h4>
                     <div class="mb-4">
-                    <a href="/tambah-artikel">
-                      <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
-                        Tambah Artikel
-                        <span class="ml-2" aria-hidden="true">+</span>
-                      </button>
+                    <div class="flex items-center">
+                      <a href="/tambah-artikel">
+                          <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
+                            Tambah Artikel
+                            <span class="ml-2" aria-hidden="true">+</span>
+                          </button>
+                          </a>
+                          <a href="excel-artikel">
+                          <button type="submit" class="p-2 ml-4 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
+                            <img src="images/excel.png" width="15"/>
+                          </button>
+                          </a>
+                          <a href="csv-artikel">
+                          <button type="submit" class="p-2 ml-2 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
+                            <img src="images/csv.png" width="15"/>
+                          </button>
+                          </a>
+                      </div>
                       @if(\Session::has('alert-success'))              
                         <div class="flex mt-4 p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                           <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
@@ -236,10 +253,9 @@
                           </div>
                         </div>
                       @endif
-                    </a>
                     </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
+                    <div class="scrollbar w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap" id="table-bank">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -298,27 +314,28 @@
                       </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                      {{$artikel->no_volume}}, {{$artikel->tahun}}
+                      <p style="width:110px;" class="truncate">{{$artikel->no_volume}}, {{$artikel->tahun}}</p>
                       </td>
-                      <td class="px-4 py-3 text-xs">
-                      {{$artikel->nama_penulis}}
+                      <td class="px-4 py-3 text-sm">
+                      <p style="width:120px;" class="truncate">{{$artikel->nama_penulis}}</p>
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
-                      <p style="width:260px;" class="truncate">{{$artikel->judul_artikel}}</p>
+                      <p style="width:280px;" class="truncate">{{$artikel->judul_artikel}}</p>
                       </td>
 
                       @php($data=FALSE)
-                          @foreach($checks as $check)
-                          @if($artikel->id_artikel==$check->id_artikel)
-                            @php($data=TRUE)
-                            @break
-                          @endif
+                          @foreach($checkWPS as $checkWP)
+                          @if($checkWP != NULL)
+                            @if($artikel->id_artikel==$checkWP->id_artikel)
+                              @php($data=TRUE)
+                            @endif
+                            @endif
                           @endforeach
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
                           @if($data==TRUE)
-                          <a style="pointer-events: none" href="edit-artikel/{{$artikel->id_artikel}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert/20 border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
+                          <a  href="edit-artikel/{{$artikel->id_artikel}}">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                             </svg>
@@ -326,7 +343,7 @@
                           </a>
 
                           <a style="pointer-events: none" href="{{url('hapus-artikel/'.$artikel->id_artikel)}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview/20 border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="Delete">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Delete">
                             <svg style="width:15px; height:15px;" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                             </svg>
@@ -334,7 +351,7 @@
                           </a>
                           @else
                           <a href="edit-artikel/{{$artikel->id_artikel}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                             </svg>
@@ -342,7 +359,7 @@
                           </a>
 
                           <a href="{{url('hapus-artikel/'.$artikel->id_artikel)}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="Delete">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Delete">
                             <svg style="width:15px; height:15px;" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                             </svg>
@@ -351,72 +368,89 @@
                           @endif
                         </div>
                       </td>
-
+                      @php($accept=0)
+                          @foreach($checkReviews as $checkReview)
+                            @if($artikel->id_artikel==$checkReview->id_artikel)
+                              @php($accept=$checkReview->jumlah)
+                            @endif
+                          @endforeach
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
-                          @if($data==TRUE)
+                          @if($accept==2)
                             <a style="pointer-events: none" href="tambah-review/{{$artikel->id_artikel}}">
-                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert/20 border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
                                 <img src="images/insert.png" width="15px">
                               </button>
                             </a>
 
                             <a class="ml-4" href="list-review/{{$artikel->id_artikel}}">
-                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="Overview">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Overview">
                                 <img src="images/overview.png" width="15px">
                               </button>
                             </a>
                           @else
                             <a href="tambah-review/{{$artikel->id_artikel}}">
-                            <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
+                            <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Insert">
                             <img src="images/insert.png" width="15px">
                             </button>
                             </a>
 
                             <a style="pointer-events: none" class="ml-4" href="list-review/{{$artikel->id_artikel}}">
-                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview/20 border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="Overview">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="Overview">
                                 <img src="images/overview.png" width="15px">
                               </button>
                             </a>
                           @endif                          
                         </div>
                       </td>
-                      @php($dataPesan='')
                       @foreach($kode_statuss as $kode_status)
                         @if($artikel->id_artikel==$kode_status->id_artikel)
                       <td class="px-4 py-3">
                         <div class="block items-center text-sm">
                           @if($kode_status->kode_status != 'p')
-                        <span class="bg-primary-insert/20 text-primary-insert text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <span class="bg-primary-purple/10 text-primary-purple tracking-wider text-06rem font-bold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
                           {{$kode_status->keterangan_status}}
                         </span>
-                          @else
-                        <span class="bg-primary-success/20 text-primary-success/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
-                          {{$kode_status->keterangan_status}}
-                        </span>
-                          @endif
-                          <div class="flex mt-2">
+                        <div class="flex mt-2">
                           <a href="tambah-artstatus/{{$artikel->id_artikel}}">
-                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="InsertStatus">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="InsertStatus">
                               <img src="images/insert.png" width="15px">
                               </button>
                               </a>
                           
                               <a class="" href="list-artstatus/{{$artikel->id_artikel}}">
-                              <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="OverviewStatus">
+                              <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="OverviewStatus">
                                 <img src="images/overview.png" width="15px">
                               </button>
                             </a>
                           </div>
+                          @else
+                        <span class="bg-primary-success/10 text-primary-success/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
+                          {{$kode_status->keterangan_status}}
+                        </span>
+                        <div class="flex mt-2">
+                          <a style="pointer-events: none" href="tambah-artstatus/{{$artikel->id_artikel}}">
+                              <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="InsertStatus">
+                              <img src="images/insert.png" width="15px">
+                              </button>
+                              </a>
+                          
+                              <a class="" href="list-artstatus/{{$artikel->id_artikel}}">
+                              <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-purple" aria-label="OverviewStatus">
+                                <img src="images/overview.png" width="15px">
+                              </button>
+                            </a>
+                          </div>
+                          @endif
                         </div>
                       </td>
                       <td class="px-4 py-3">
-                        <div class="block items-center text-sm">
-                          <span class="bg-primary-kuning/20 text-primary-kuning text-xs font-semibold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <div class="block items-center text-xs">
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
                           @if($kode_status->kode_status=='wr')
                                 Section Editor set reviewer
                           @elseif($kode_status->kode_status=='ir')
-                                Kembalikan ke author
+                          Jika ada revisi kembalikan ke author, jika tidak revision done
                           @elseif($kode_status->kode_status=='sa')
                                 Menunggu revisi dari author
                           @elseif($kode_status->kode_status=='rd')
@@ -442,9 +476,17 @@
                         </div>
                       </td>
                       <td class="px-4 py-3 text-xs">
-                      @foreach($invoices as $invoice)
-                      @if($artikel->id_artikel == $invoice->id_artikel and $kode_status->kode_status == 'ii')
-                      <a class="text-primary-normal font-semibold underline" href="{{asset('download-invoice/'.$invoice->id_invoice)}}">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}</a>
+                      @foreach($files as $file)
+                      @if($artikel->id_artikel == $file->id_artikel)
+                      @if($kode_status->kode_status == 'ii')
+                      <a class="text-primary-normal font-semibold underline" href="{{asset('download-invoice/'.$file->id_invoice)}}">Invoice</a>
+                      @elseif($kode_status->kode_status == 'plri')
+                      <a target="e_blank" class="text-primary-normal font-semibold underline" href="{{asset('download-loa/'.$file->id_loa)}}">LOA</a>
+                      <a target="e_blank" class="text-primary-normal font-semibold underline" href="{{asset('download-kwitansi/'.$file->id_kwitansi)}}">Kwitansi</a>
+                      <a target="e_blank" class="text-primary-normal font-semibold underline" href="{{asset('images/bukti_bayar/'.$file->bukti_bayar)}}">Bukti Bayar</a>
+                      @else
+                      ---
+                      @endif
                       @endif
                       @endforeach
                       </td>
@@ -458,24 +500,17 @@
                 
                 <script type="text/javascript">
                   $(function(){
-                    $('.toggle-class').change(function(){
-                      var status = $(this).prop('checked') == true ? 1 : 0;
-                      var id_volume = $(this).data('id_volume');
-                          $.ajax({
-                            type: 'get',
-                            dataType: 'json',
-                            url: '{{ route('change-status-volume')}}',
-                            data: {'status': status, 'id_volume': id_volume},
-                            success: function(data){
-                              console.log('Success')
-                            }
-                          });
-                      window.setTimeout( function() {window.location.reload();}, 50);
+                    $(document).on("keypress", function(e) {
+                      if(e.which == 47){
+                        $("#input-artikel").focus();
+                      }else if(e.which == 46){
+                        window.location.assign('http://127.0.0.1:8000/list-artikel');
+                      }
                     });
 
-                    $('#input-volume').on('keyup change', function(e){
+                    $('#input-artikel').on('keyup change', function(e){
                       var search = $(this).val();
-                      var input_value = document.getElementById('input-volume').value;
+                      var input_value = document.getElementById('input-artikel').value;
                       if(e.which == 13){
                         $.ajax({
                             type: 'get',
@@ -486,7 +521,7 @@
                               console.log('Success')
                             }
                         });
-                        window.setTimeout( function() {window.location.replace('http://127.0.0.1:8000/cari-list-volume?cari='+input_value);}, 50);
+                        
                       }
                       
                     });
@@ -495,96 +530,28 @@
             </div>
             </div>
               <div
-                class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+                class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
               >
-                <span class="flex items-center col-span-3">
-                </span>
-                <span class="col-span-2"></span>
-                <!-- Pagination -->
-                <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-                  <nav aria-label="Table navigation">
-                    <ul class="inline-flex items-center">
-                      @if(($artikels->currentPage())!=1)
-                        <li>
-                      <a href="{{$artikels->previousPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                          <svg
-                            class="w-4 h-4 fill-current"
-                            aria-hidden="true"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"
-                              fill-rule="evenodd"
-                            ></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="http://127.0.0.1:8000/list-artikel?page=1">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                          Pertama
-                        </button>
-                        </a>
-                      </li>
-                      <li>
-                      @endif
-                      
-                      <li>
-                        <button disabled class="px-3 py-1 text-white transition-colors duration-150 bg-primary-normal border border-r-0 border-primary-hover rounded-md focus:outline-none focus:shadow-outline-purple">
-                        {{$artikels->currentPage()}}
-                        </button>
-                      </li>
-
-                      @if(($artikels->currentPage())!=($artikels->lastPage()) and ($artikels->lastPage() > 1))
-                      <li>
-                        <a href="list-artikel?page={{$artikels->lastPage()}}">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                       Terakhir
-                        </button>
-                        </a>
-                      </li>
-                        <li>
-                      <a href="{{$artikels->nextPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                            <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>
-                      @else
-                      <li disabled class="invisible">
-                        <a href="list-volume?page={{$artikels->lastPage()}}">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                       Terakhir
-                        </button>
-                        </a>
-                      </li>
-                        <li disabled class="invisible">
-                      <a href="{{$artikels->nextPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                            <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>                      
-                      @endif
-                    </ul>
-                  </nav>
-                </span>
+                  <!-- Help text -->
+                  <span class="flex items-center col-span-3">
+                    Showing {{$artikels->firstItem()}} - {{$artikels->lastItem()}} of {{$artikels->total()}} results
+                  </span>
+                  <span class="col-span-2"></span>
+                  <div class="flex col-span-4 sm:mt-auto sm:justify-end mt-2">
+                    <!-- Buttons -->
+                    <a href="{{$artikels->previousPageUrl()}}">
+                    <button class="inline-flex items-center py-2 px-4 text-sm font-medium  leading-5 text-white  duration-150 bg-primary-normal rounded-l  hover:bg-primary-hover focus:outline-none focus:shadow-outline-green ">
+                        <svg aria-hidden="true" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        Prev
+                    </button>
+                    </a>
+                    <a href="{{$artikels->nextPageUrl()}}">
+                    <button class="inline-flex items-center py-2 px-4 text-sm font-medium text-white  bg-primary-normal rounded-r hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
+                        Next
+                        <svg aria-hidden="true" class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    </a>
+                  </div>
               </div>
             </div>
             <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>

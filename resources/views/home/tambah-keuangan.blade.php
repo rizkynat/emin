@@ -3,13 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Artikel | Emin</title>
+    <title>Tambah Keuangan | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/flowbite.min.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script src="{{asset('assets/alpine.min.js')}}" defer></script>
     <script src="{{asset('assets/init-alpine.js')}}"></script>
     <script src="{{asset('assets/datepicker.js')}}"></script>
+    <style>
+      input[type=file]::file-selector-button {
+        background-color: #9AAB89;
+      }
+
+      input[type=file]::file-selector-button:hover {
+        background-color: #B5C7A3;
+      }
+    </style>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -214,10 +224,10 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Edit Artikel
+                Tambah Keuangan
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              @if(\Session::has('alert'))              
+              @if(Session::has('alert'))              
               <div class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                 <span class="sr-only">Info</span>
@@ -226,56 +236,53 @@
                 </div>
               </div>
               @endif
-
-              <form action="{{url('edit-artikel/'.$artikels[0]->id_artikel)}}" method="post">
+                <form action="/tambah-keuangan" method="post" enctype="multipart/form-data" >
                     @csrf
+                    
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Id Artikel</span>
-                        <input readonly type="text" value="{{$artikels[0]->id_artikel}}" name="id_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                        <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
+                        <input type="text" name="deskripsi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Biaya fotocopy">
                     </label>
+                
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Volume</span>
-                        <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
-                        @php
-                        $i=1
-                        @endphp
-                        @foreach ($volumes_status as $volume_status)
-                            @if($artikels[0]->id_volume==$volume_status->id_volume)
-                            <option selected value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
-                            @else
-                            <option value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
-                            @endif
-                            @php
-                            $i++
-                            @endphp
-                        @endforeach
+                        <span class="text-gray-700 dark:text-gray-400">Status</span>
+                        <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                            <option value="Uang keluar">Uang Keluar</option>
+                            <option value="Uang masuk">Uang Masuk</option>
                         </select>
                     </label>
+
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Nama Penulis</span>
-                        <input type="text" value="{{$artikels[0]->nama_penulis}}" name="nama_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                    <span class="text-gray-700 dark:text-gray-400">Kwitansi/Bukti Bayar</span>
+                    <input type="file" name="foto_kwitansi" accept=".jpeg, .jpg, .png, .webp, .jfif" class="block text-sm mt-1 text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-primary-normal
+                    "/>
                     </label>
 
                     <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Email Penulis</span>
-                        <input type="text" value="{{$artikels[0]->email_penulis}}" name="email_penulis" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Vol. 7 No.1">
+                        <span class="text-gray-700 dark:text-gray-400">Nominal</span>
+                        <input type="number" name="nominal" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="25000">
                     </label>
 
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Judul Artikel</span>
-                        <input type="textarea" value="{{$artikels[0]->judul_artikel}}" name="judul_artikel" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
-                    </label>
-
-                    <label class="block text-sm mt-4">
-                        <span class="text-gray-700 dark:text-gray-400">Asal Instansi</span>
-                        <input type="text" value="{{$artikels[0]->instansi}}" name="instansi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Rp 300.000">
+                  <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">Tanggal Kwitansi</span>
+                        <div class="relative">
+                          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="#9AAB89" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                          </div>
+                          <input datepicker datepicker-buttons datepicker-autohide datepicker-format="yyyy/mm/dd" type="text" name="tgl_keuangan" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none pl-10 p-2.5 focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="yyyy/mm/dd">
+                        </div>
                     </label>
 
                     <div class="mt-4">
-                    <a href="{{url('edit-volume/'.$artikels[0]->id_volume)}}">
-                    <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
-                        Batal
-                    </button>
+                    <a href="/tambah-keuangan">
+                      <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+                          Batal
+                      </button>
+                    </a>
                     <button type="submit" class="ml-4 text-primary-normal hover:text-primary-white border-2 border-primatext-primary-normal hover:bg-primary-hover focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-1.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-primary-normal dark:hover:text-primary-white dark:hover:bg-green-600 dark:focus:ring-primary-hover">
                         Simpan
                     </button>

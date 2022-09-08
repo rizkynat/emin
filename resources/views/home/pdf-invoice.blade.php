@@ -43,7 +43,7 @@ div.cls_002{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weigh
 use App\Http\Controllers\ServiceProvider;
 $service =new ServiceProvider();
 @endphp
-<div style="position:absolute;left:72.02px;top:436.15px" class="cls_005"><span class="cls_005">*Terbilang: {{$service->terbilang($invoices[0]->harga)}}</span></div>
+<div style="position:absolute;left:72.02px;top:436.15px" class="cls_005"><span class="cls_005">*Terbilang: {{ucwords($service->terbilang($invoices[0]->harga))}}</span></div>
 <div style="position:absolute;left:72.02px;top:477.55px" class="cls_005"><span class="cls_005">Pembayaran untuk invoice ini, mohon ditransfer ke rekening:</span></div>
 @foreach($banks as $bank)
 @if($bank->id_volume==$invoices[0]->id_volume)

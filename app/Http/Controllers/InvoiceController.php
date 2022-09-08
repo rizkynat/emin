@@ -23,7 +23,7 @@ class InvoiceController extends Controller
             DB::statement("SET lc_time_names = 'id_ID';");
             $invoices = DB::table('invoice')
             ->join('artikel', 'invoice.id_artikel','=','artikel.id_artikel')
-            ->select('artikel.judul_artikel', 'invoice.id_invoice', DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"))->paginate(5);
+            ->select('artikel.judul_artikel', 'invoice.id_invoice', DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y, %H:%i') as tgl_invoice"))->paginate(5);
             return view('home.list-invoice', ['invoices'=>$invoices]);
         }
     }
@@ -33,11 +33,13 @@ class InvoiceController extends Controller
             return redirect('list-artikel')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            if(Session::get('role')!='bendahara'){
-                return redirect('list-invoice')->with('alert','Hanya bendahara yang dapat mengakses fitur ini!');
+            if(Session::get('role')!='chief editor'){
+                return redirect('list-invoice')->with('alert','Hanya chief editor yang dapat mengakses halaman "Tambah Invoice" !');
             }else{
             DB::statement("SET lc_time_names = 'id_ID';");
-            $artikels = DB::select('select id_artikel, judul_artikel from artikel where status="0"');
+            $artikels = DB::select("select * from artikel_status INNER JOIN artikel on artikel_status.id_artikel=artikel.id_artikel
+            INNER JOIN status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)
+            and artikel.status='0' and artikel_status.kode_status='ced'");
             return view('home.tambah-invoice',['artikels'=>$artikels]);
             }
         }
@@ -56,6 +58,7 @@ class InvoiceController extends Controller
             DB::insert('insert into invoice (id_artikel) values (?)', [$id_artikel]);
             
             DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['ii', $id_artikel]);
+            DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['wp', $id_artikel]);
             DB::update('update artikel set status=? where id_artikel=?',[$status, $id_artikel]);
 
                  

@@ -213,7 +213,7 @@
                     List Review
                     </h4>
                     <div class="mb-4">
-                      @if(\Session::has('alert-success'))              
+                    @if(\Session::has('alert-success'))              
                         <div class="flex mt-4 p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                           <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                           <span class="sr-only">Info</span>
@@ -221,9 +221,17 @@
                             <span class="font-medium">{{Session::get('alert-success')}}</span>
                           </div>
                         </div>
+                      @elseif(\Session::has('alert'))              
+                        <div class="flex mt-4 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                          <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                          <span class="sr-only">Info</span>
+                          <div>
+                            <span class="font-medium">{{Session::get('alert')}}</span>
+                          </div>
+                        </div>
                       @endif
                     </div>
-                    <div class="w-full h-20 px-4 py-5 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <div class="w-full px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             <span class="font-semibold">Judul Artikel  :</span> <span class="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"> {{$reviews[0]->judul_artikel}}</span></br>
                         </p>
@@ -249,11 +257,13 @@
                       {{$review->nama_reviewer}}
                       </td>
                       <td class="px-4 py-3 text-xs">
+                    @php($accepted = FALSE)
                         @if($review->catatan=='Revisi')
                           <span class="rounded-xl py-1 px-3 text-primary-warning font-medium" style="background-color:rgba(254, 62, 65, 0.2);">{{$review->catatan}}</span>
                         @elseif($review->catatan=='Re-Submit For Review')
                           <span class="rounded-xl py-1 px-3 text-primary-insert font-medium" style="background-color:rgba(255, 90, 31, 0.2);">{{$review->catatan}}</span>
                         @else
+                          @php($accepted=TRUE)
                           <span class="rounded-xl py-1 px-3 text-primary-success font-medium" style="background-color:rgba(62, 196, 122, 0.2);">{{$review->catatan}}</span>
                         @endif
                       </td>
@@ -262,13 +272,23 @@
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                          <a href="{{url('edit-review/'.$review->id_review)}}">
+                          @if($accepted==TRUE)
+                          <a style="pointer-events: none" href="{{url('edit-review/'.$review->id_review.'/'.$review->id_artikel)}}">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert/20 border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
+                            <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
+                              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                            </svg>
+                          </button>
+                          </a>
+                          @else
+                          <a href="{{url('edit-review/'.$review->id_review.'/'.$review->id_artikel)}}">
                           <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-insert border border-transparent rounded-md active:bg-primary-insert/70 hover:bg-primary-insert/70 focus:outline-none focus:shadow-outline-purple" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                             </svg>
                           </button>
                           </a>
+                          @endif
                           <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-overview border border-transparent rounded-md active:bg-primary-overview/70 hover:bg-primary-overview/70 focus:outline-none focus:shadow-outline-purple" aria-label="History" data-modal-toggle="extralarge-modal{{$review->id_review}}">
                             <img src="{{asset('images/info.png')}}" width="15px">
                           </button>
