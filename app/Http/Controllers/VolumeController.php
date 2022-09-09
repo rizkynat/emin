@@ -22,24 +22,25 @@ class VolumeController extends Controller
             DB::statement("SET lc_time_names = 'id_ID';");
             $volumes = DB::table('volume')
             ->join('bank', 'volume.id_bank','=','bank.id_bank')
-            ->select('volume.id_volume','volume.id_bank',DB::raw("DATE_FORMAT(volume.tahun, '%e %M %Y') as tahun"),'volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek')->paginate(5);
+            ->select('volume.id_volume','volume.id_bank',DB::raw("DATE_FORMAT(volume.tahun, '%e %M %Y') as tahun"),'volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek')->paginate(10);
             return view('home.list-volume', ['volumes'=>$volumes]);
         }
     }
 
     public function cari(Request $request){
         $cari = $request->cari;
-
+        
+        DB::statement("SET lc_time_names = 'id_ID';");
         $volume = DB::table('volume')
         ->join('bank', 'volume.id_bank','=','bank.id_bank')
-        ->select('volume.id_volume','volume.id_bank','volume.tahun','volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek');
+        ->select('volume.id_volume','volume.id_bank',DB::raw("DATE_FORMAT(volume.tahun, '%e %M %Y') as tahun"),'volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek');
         $columns = array('bank.nama_bank','bank.no_rek','volume.tahun','volume.no_volume','volume.harga');
         $resultsArray = array();
 
         foreach($columns as $column){
             $volume = $volume->orWhere($column,'like', "%".$cari."%");
         }
-        $volumes = $volume->paginate();
+        $volumes = $volume->paginate(10);
         return view('home.list-volume', ['volumes'=>$volumes]);
     }
 

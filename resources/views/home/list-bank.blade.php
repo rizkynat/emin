@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List Bank | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="{{asset('assets/scrollbar.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script
@@ -23,16 +25,16 @@
               <div
                 class="w-full max-w-xl mx-auto focus-within:text-primary-font"
               >
-                <form action="cari-list-bank" method="get" class="flex items-cente4r">
+                <form action="/cari-bank" method="get" class="flex items-cente4r">
                   <input
                     id="input-bank"
                     name="cari"
                     class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
                     type="text"
-                    placeholder="Cari"
+                    placeholder="Cari bank"
                     aria-label="Search"
                   />
-                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                   </button>
                 </form>
@@ -198,7 +200,7 @@
             </ul>
           </div>
         </header>
-        <main class="h-full pb-16 overflow-y-auto">
+        <main class="scrollbar h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
           <div class="container px-6 mx-auto grid">
             <h2
@@ -209,11 +211,11 @@
             <h4
                     class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     >
-                    List Bank
+                    <div class="bg-primary-normal w-60 h-8 shadow-md rounded-r-3xl"><span class="ml-4 text-primary-white">List Bank</span></div>
                     </h4>
                     <div class="mb-4">
                     <a href="/tambah-bank">
-                      <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+                      <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                         Tambah Bank
                         <span class="ml-2" aria-hidden="true">+</span>
                       </button>
@@ -229,7 +231,7 @@
                     </a>
                     </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
+                    <div class="scrollbar w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap" id="table-bank">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -262,7 +264,7 @@
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                          <a href="edit-bank/{{$bank->id_bank}}">
+                          <a href="{{url('/edit-bank/'.$bank->id_bank)}}">
                           <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg class="w-5 h-5" aria-hidden="true" fill="#9AAB89" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -292,6 +294,15 @@
                 </table>
                 <script type="text/javascript">
                   $(function(){
+                    $(document).on("keypress", function(e) {
+                      if(e.which == 47){
+                        $("#input-bank").focus();
+                      }else if(e.which == 46){
+                        window.location.assign('/list-bank');
+                      }
+                    });
+                  });
+                  $(function(){
                     $('.toggle-class').change(function(){
                       var status = $(this).prop('checked') == true ? 1 : 0;
                       var id_bank = $(this).data('id_bank');
@@ -307,117 +318,34 @@
                       window.setTimeout( function() {window.location.reload();}, 50);
                     });
 
-                    $('#input-bank').on('keyup change', function(e){
-                      var search = $(this).val();
-                      var input_value = document.getElementById('input-bank').value;
-                      if(e.which == 13){
-                        $.ajax({
-                            type: 'get',
-                            dataType: 'json',
-                            url: '{{ route('cari-list-bank.show')}}',
-                            data: {'cari': input_value},
-                            success: function(data){
-                              console.log('Success')
-                            }
-                        });
-                        window.setTimeout( function() {window.location.replace('http://127.0.0.1:8000/cari-list-bank?cari='+input_value);}, 50);
-                      }
-                      
-                    });
                   });
                 </script>
             </div>
             </div>
-              <div
-                class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+            <div
+                class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
               >
-                <span class="flex items-center col-span-3">
-                </span>
-                <span class="col-span-2"></span>
-                <!-- Pagination -->
-                <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-                  <nav aria-label="Table navigation">
-                    <ul class="inline-flex items-center">
-                      @if(($banks->currentPage())!=1)
-                        <li>
-                      <a href="{{$banks->previousPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                          <svg
-                            class="w-4 h-4 fill-current"
-                            aria-hidden="true"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"
-                              fill-rule="evenodd"
-                            ></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="http://127.0.0.1:8000/list-bank?page=1">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                          Pertama
-                        </button>
-                        </a>
-                      </li>
-                      <li>
-                      @endif
-                      <li>
-                        <button disabled class="px-3 py-1 text-white transition-colors duration-150 bg-primary-normal border border-r-0 border-primary-hover rounded-md focus:outline-none focus:shadow-outline-purple">
-                        {{$banks->currentPage()}}
-                        </button>
-                      </li>
-
-                      @if(($banks->currentPage())!=($banks->lastPage()) and ($banks->lastPage() > 1))
-                      <li>
-                        <a href="list-bank?page={{$banks->lastPage()}}">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                       Terakhir
-                        </button>
-                        </a>
-                      </li>
-                        <li>
-                      <a href="{{$banks->nextPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                            <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>
-                      @else
-                      <li disabled class="invisible">
-                        <a href="list-bank?page={{$banks->lastPage()}}">
-                        <button class="px-3 py-1 rounded-md focus:outline-none hover:text-primary-normal">
-                       Terakhir
-                        </button>
-                        </a>
-                      </li>
-                        <li disabled class="invisible">
-                      <a href="{{$banks->nextPageUrl()}}">
-                        <button
-                          class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none"
-                          aria-label="Previous"
-                        >
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                            <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                        </a>
-                      </li>                      
-                      @endif
-                    </ul>
-                  </nav>
-                </span>
+                  <!-- Help text -->
+                  <span class="flex items-center col-span-3">
+                    Showing {{$banks->firstItem()}} - {{$banks->lastItem()}} of {{$banks->total()}} results
+                  </span>
+                  <span class="col-span-2"></span>
+                  <div class="flex col-span-4 sm:mt-auto sm:justify-end mt-2">
+                    <!-- Buttons -->
+                    <a href="{{$banks->previousPageUrl()}}">
+                    <button class="inline-flex items-center py-2 px-4 text-sm font-medium  leading-5 text-white  duration-150 bg-primary-normal rounded-l  hover:bg-primary-hover focus:outline-none focus:shadow-outline-green ">
+                        <svg aria-hidden="true" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        Prev
+                    </button>
+                    </a>
+                    <a href="{{$banks->nextPageUrl()}}">
+                    <button class="inline-flex items-center py-2 px-4 text-sm font-medium text-white  bg-primary-normal rounded-r hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
+                        Next
+                        <svg aria-hidden="true" class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    </a>
+                  </div>
               </div>
             </div>
+            <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 @endsection

@@ -27,10 +27,14 @@ class TestController extends Controller
             }
             $x++;
         }*/
-            $bayar = Bayar::find($id_bayar);
             
             $uangMasuk = DB::select("select sum(nominal) as nominal from keuangan where status='Uang masuk'");
-            return $uangMasuk[0]->nominal;
+            $kode_statuss = DB::select("select id_artikel from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel) and artikel_status.kode_status='".$id_bayar."'");
+            $filter_array = array();
+            foreach($kode_statuss as $kode_status){
+                array_push($filter_array, $kode_status->id_artikel);
+            }
+            return $filter_array;
     }
 
 

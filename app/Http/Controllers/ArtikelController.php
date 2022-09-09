@@ -28,6 +28,8 @@ class ArtikelController extends Controller
             ->select('artikel_status.id_artikel','artikel_status.kode_status',DB::raw('max() as '),'status.keterangan_status')->get();*/
             $reviews = DB::select('select * from review');
 
+            $statuss = DB::select('select * from status');
+
             $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
             $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
             $checkReviews = DB::select("select count(*) as jumlah, id_artikel from review group by id_artikel");
@@ -43,7 +45,7 @@ class ArtikelController extends Controller
             $artikels = DB::table('artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
             ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->paginate(10);
-            return view('home.list-artikel',['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
+            return view('home.list-artikel',['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'statuss'=>$statuss, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
         }
     }
 
@@ -53,6 +55,8 @@ class ArtikelController extends Controller
         DB::statement("SET lc_time_names = 'id_ID';");
 
         $reviews = DB::select('select * from review');
+
+        $statuss = DB::select('select * from status');
 
         $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
         $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
@@ -80,8 +84,47 @@ class ArtikelController extends Controller
         foreach($columns as $column){
             $artikel = $artikel->orWhere($column,'like', "%".$cari."%");
         }
-        $artikels = $artikel->paginate();
-        return view('home.list-artikel', ['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
+        $artikels = $artikel->paginate(10);
+        return view('home.list-artikel', ['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'statuss'=>$statuss, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
+    }
+
+    public function filter(Request $request, $kode_status){
+        $filter = $kode_status;
+
+        DB::statement("SET lc_time_names = 'id_ID';");
+
+        $reviews = DB::select('select * from review');
+
+        $statuss = DB::select('select * from status');
+
+        $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
+        $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
+        $checkReviews = DB::select("select count(*) as jumlah, id_artikel from review group by id_artikel");
+
+        $filter_kode_statuss = DB::select("select id_artikel from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel) and artikel_status.kode_status='".$filter."'");
+        $filter_array = array();
+            foreach($filter_kode_statuss as $filter_kode_status){
+                array_push($filter_array, $filter_kode_status->id_artikel);
+            }
+        
+        $files = DB::table('kwitansi')
+        ->join('pembayaran', 'kwitansi.id_bayar', '=', 'pembayaran.id_bayar')
+        ->join('invoice', 'invoice.id_invoice','=','pembayaran.id_invoice')
+        ->join('artikel','artikel.id_artikel', '=','invoice.id_artikel')
+        ->join('loa', 'loa.id_artikel', '=', 'artikel.id_artikel')
+        ->select('artikel.id_artikel','invoice.id_invoice','pembayaran.bukti_bayar', 'loa.id_loa', 'kwitansi.id_kwitansi')->get();
+
+        $checkId_artikel = DB::table('review')
+        ->join('artikel', 'artikel.id_artikel','=','review.id_artikel')
+        ->select('review.id_artikel')
+        ->distinct()->get();
+
+        $artikel = DB::table('artikel')
+        ->join('volume', 'artikel.id_volume','=','volume.id_volume')
+        ->whereIn('artikel.id_artikel', $filter_array)
+        ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.no_volume', 'volume.tahun');
+        $artikels = $artikel->paginate(10);
+        return view('home.list-artikel', ['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews,'statuss'=>$statuss, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
     }
 
     public function tambahArtikelShow(){

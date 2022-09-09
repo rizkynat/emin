@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Bukti Bayar | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('assets/flowbite.min.css')}}" />
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="{{asset('assets/scrollbar.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script src="{{asset('assets/alpine.min.js')}}" defer></script>
@@ -214,7 +215,7 @@
             </ul>
           </div>
         </header>
-        <main class="h-full pb-16 overflow-y-auto">
+        <main class="scrollbar h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
           <div class="container px-6 mx-auto grid">
             <h2

@@ -19,7 +19,7 @@ class BankController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            $banks = DB::table('bank')->paginate(5);
+            $banks = DB::table('bank')->paginate(10);
             return view('home.list-bank', ['banks'=>$banks]);
         }
     }
@@ -34,7 +34,7 @@ class BankController extends Controller
         foreach($columns as $column){
             $bank = $bank->orWhere($column,'like', "%".$cari."%");
         }
-        $banks = $bank->paginate();
+        $banks = $bank->paginate(10);
         return view('home.list-bank', ['banks'=>$banks]);
     }
 
