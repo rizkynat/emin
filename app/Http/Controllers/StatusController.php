@@ -19,9 +19,23 @@ class StatusController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            $statuss = DB::select('select kode_status, keterangan_status from status');
+            $statuss = DB::table('status')->paginate(10);
             return view('home.list-status', ['statuss'=>$statuss]);
         }
+    }
+
+    public function cari(Request $request){
+        $cari = $request->cari;
+
+        $status = DB::table('status');
+        $columns = array('kode_status','keterangan_status');
+        $resultsArray = array();
+
+        foreach($columns as $column){
+            $statuss = $status->orWhere($column,'like', "%".$cari."%");
+        }
+        $statuss = $statuss->paginate(10);
+        return view('home.list-status', ['statuss'=>$statuss]);
     }
 
     public function tambahStatusShow(){

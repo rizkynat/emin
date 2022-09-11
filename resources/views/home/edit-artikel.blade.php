@@ -231,7 +231,7 @@
                     </label>
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Volume</span>
-                        <select name="id_volume" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <select name="id_volume" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
                         @php
                         $i=1
                         @endphp

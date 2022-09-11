@@ -24,16 +24,16 @@
               <div
                 class="w-full max-w-xl mx-auto focus-within:text-primary-font"
               >
-                <form action="cari-list-artikel" method="get" class="relative flex items-cente4r">
+                <form action="/cari-artikel" method="get" class="relative flex items-cente4r">
                   <input
                     id="input-artikel"
                     name="cari"
                     class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
                     type="text"
-                    placeholder="Cari"
+                    placeholder="Cari artikel"
                     aria-label="Search"
                   />
-                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                   </button>
                 </form>
@@ -210,7 +210,7 @@
             <h4
                     class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     >
-                    List Review
+                    <div class="bg-primary-normal w-60 h-8 shadow-md rounded-r-3xl"><span class="ml-4 text-primary-white">List Review</span></div>
                     </h4>
                     <div class="mb-4">
                     @if(\Session::has('alert-success'))              
@@ -357,5 +357,16 @@
             </div>
             </div>
             </div>
+            <script type="text/javascript">
+                  $(function(){
+                    $(document).on("keypress", function(e) {
+                      if(e.which == 47){
+                        $("#input-artikel").focus();
+                      }else if(e.which == 46){
+                        window.location.assign('/list-artikel');
+                      }
+                    });
+                  });
+              </script>
             <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 @endsection

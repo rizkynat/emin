@@ -19,7 +19,7 @@ class ReviewerController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            $reviewers = DB::table('reviewer')->paginate(5);
+            $reviewers = DB::table('reviewer')->paginate(10);
             return view('home.list-reviewer', ['reviewers'=>$reviewers]);
         }
     }
@@ -34,7 +34,7 @@ class ReviewerController extends Controller
         foreach($columns as $column){
             $reviewers = $reviewer->orWhere($column,'like', "%".$cari."%");
         }
-        $reviewers = $reviewers->paginate();
+        $reviewers = $reviewers->paginate(10);
         return view('home.list-reviewer', ['reviewers'=>$reviewers]);
     }
 

@@ -46,6 +46,7 @@ class ArtStatusController extends Controller
         }
         else{
             $arrayTambahStatuss = [];
+            $artikel = DB::select('select * from artikel where id_artikel=?',[$id_artikel]);
             $statuss = DB::select('select kode_status, keterangan_status from status');
             $artikel_status = DB::select('select s.kode_status, s.keterangan_status from artikel_status at inner join status s on at.kode_status = s.kode_status where at.id_artikel=?',[$id_artikel]);
             $x=0;
@@ -55,19 +56,17 @@ class ArtStatusController extends Controller
                 }
                 $x++;
             }
-            return view('home.tambah-artstatus',['arrayTambahStatuss'=>$arrayTambahStatuss])->with('id_artikel',$id_artikel);
+            return view('home.tambah-artstatus',['arrayTambahStatuss'=>$arrayTambahStatuss, 'artikel'=>$artikel])->with('id_artikel',$id_artikel);
         }
     }
 
     public function tambahArtStatusProses(Request $request, $id_artikel){
         
         $validator = Validator::make($request->all(), [
-            'id_artikel' => 'required',
             'kode_status' => 'required'
         ]);
 
         if(!$validator->fails()){
-            $id_artikel = $request->id_artikel;
             $kode_status = $request->kode_status;
 
             DB::insert('insert into artikel_status (kode_status, id_artikel) values (?, ?)', [$kode_status, $id_artikel]);

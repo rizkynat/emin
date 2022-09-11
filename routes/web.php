@@ -49,7 +49,7 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/change-status-volume', 'VolumeController@changeStatus')->name('change-status-volume');
 
     Route::get('/list-reviewer', 'ReviewerController@show')->name('list-reviewer.show');
-    Route::get('/cari-list-reviewer','ReviewerController@cari')->name('cari-list-reviewer.show');
+    Route::get('/cari-reviewer','ReviewerController@cari')->name('cari-reviewer.show');
     Route::get('/tambah-reviewer', 'ReviewerController@tambahReviewerShow')->name('tambah-reviewer.show');
     Route::post('/tambah-reviewer', 'ReviewerController@tambahReviewerProses')->name('tambah-reviewer.proses');
     Route::get('/edit-reviewer/{id_reviewer}', 'ReviewerController@editReviewerShow')->name('edit-reviewer.show');
@@ -63,6 +63,7 @@ Route::group(['middleware' => ['guest']], function() {
     Route::post('/edit-review/{id_artikel}/{id_review}/{kategori}', 'ReviewController@editReviewProses')->name('edit-review.proses');
 
     Route::get('/list-status', 'StatusController@show')->name('list-status.show');
+    Route::get('/cari-status','StatusController@cari')->name('cari-status.show');
     Route::get('/tambah-status', 'StatusController@tambahStatusShow')->name('tambah-status.show');
     Route::post('/tambah-status', 'StatusController@tambahStatusProses')->name('tambah-status.proses');
     Route::get('/edit-status/{kode_status}', 'StatusController@editStatusShow')->name('edit-status.show');

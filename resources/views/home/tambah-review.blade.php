@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tambah Review | Emin</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Podkova&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="{{asset('assets/scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/flowbite.min.css')}}" />
     @vite('resources/css/app.css')
     @vite('resources/css/tailwind.output.css')
     <script src="{{asset('assets/alpine.min.js')}}" defer></script>
     <script src="{{asset('assets/init-alpine.js')}}"></script>
-    <script src="{{asset('assets/datepicker.js')}}"></script>
+    <script src="{{asset('assets/datepicker.js')}}"></script>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   </head>
   <body>
 @extends('layouts.admin-master')
@@ -19,29 +22,22 @@
 
   <!--header-->
   <div class="flex justify-center flex-1 lg:mr-32">
-              <div
+  <div
                 class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
               >
-                <div class="absolute inset-y-0 flex items-center pl-2">
-                  <svg
-                    class="w-4 h-4"
-                    aria-hidden="true"
-                    fill="#707275"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-                <input
-                  class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                  type="text"
-                  placeholder="Cari"
-                  aria-label="Search"
-                />
+              <form action="/cari-artikel" method="get" class="flex items-cente4r">
+                  <input
+                    id="input-artikel"
+                    name="cari"
+                    class="w-full pl-4 pr-2 text-sm placeholder-gray-600 bg-gray-100 focus:outline-none focus:shadow-outline-green border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-primary-normal  form-input"
+                    type="text"
+                    placeholder="Cari artikel"
+                    aria-label="Search"
+                  />
+                  <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                  </button>
+                </form>
               </div>
             </div>
             <ul class="flex items-center flex-shrink-0 space-x-6">
@@ -204,7 +200,7 @@
             </ul>
           </div>
         </header>
-        <main class="h-full pb-16 overflow-y-auto">
+        <main class="scrollbar h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
           <div class="container px-6 mx-auto grid">
             <h2
@@ -215,7 +211,7 @@
         <h4
             class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-                Tambah Review
+            <div class="bg-primary-normal w-60 h-8 shadow-md rounded-r-3xl"><span class="ml-4 text-primary-white">Tambah Review</span></div>
         </h4>
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               @if(Session::has('alert'))              
@@ -236,7 +232,7 @@
                     
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Nama Reviewer Internal</span>
-                        <select name="id_reviewer_internal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <select name="id_reviewer_internal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
                         @foreach ($reviewers as $reviewer)
                         @if($reviewer->kategori=='Internal')
                             <option value="{{$reviewer->id_reviewer}}">{{$reviewer->nama_reviewer}}</option>
@@ -247,7 +243,7 @@
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Catatan Internal</span>
-                        <select name="catatan_internal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <select name="catatan_internal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
                             <option value="Revisi">Revisi</option>
                             <option value="Re-Submit For Review">Re-Submit For Review</option>
                             <option value="Accepted">Accepted</option>
@@ -256,7 +252,7 @@
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Nama Reviewer Eksternal</span>
-                        <select name="id_reviewer_eksternal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <select name="id_reviewer_eksternal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
                         @foreach ($reviewers as $reviewer)
                         @if($reviewer->kategori=='Eksternal')
                             <option value="{{$reviewer->id_reviewer}}">{{$reviewer->nama_reviewer}}</option>
@@ -267,7 +263,7 @@
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Catatan Eksternal</span>
-                        <select name="catatan_eksternal" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <select name="catatan_eksternal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
                             <option value="Revisi">Revisi</option>
                             <option value="Re-Submit For Review">Re-Submit For Review</option>
                             <option value="Accepted">Accepted</option>
@@ -276,7 +272,7 @@
 
                     <div class="mt-4">
                     <a href="/tambah-review/{{$id_artikel}}">
-                      <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+                      <button type="button" class="items-center justify-between px-4 py-1.5 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                           Batal
                       </button>
                     </a>
@@ -287,4 +283,15 @@
                     </div>
                 </form>
             </div>
+            <script type="text/javascript">
+                  $(function(){
+                    $(document).on("keypress", function(e) {
+                      if(e.which == 47){
+                        $("#input-artikel").focus();
+                      }else if(e.which == 46){
+                        window.location.assign('/list-artikel');
+                      }
+                    });
+                  });
+              </script>
 @endsection
