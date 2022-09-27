@@ -19,7 +19,7 @@ class BankController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            $banks = DB::table('bank')->paginate(10);
+            $banks = DB::table('bank')->latest('id_bank')->paginate(10);
             return view('home.list-bank', ['banks'=>$banks]);
         }
     }
@@ -27,7 +27,7 @@ class BankController extends Controller
     public function cari(Request $request){
         $cari = $request->cari;
 
-        $bank = DB::table('bank');
+        $bank = DB::table('bank')->latest('id_bank');
         $columns = array('nama_bank','no_rek','atas_nama','email');
         $resultsArray = array();
 

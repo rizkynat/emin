@@ -21,15 +21,77 @@ class BayarController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            if(Session::get('role')!='bendahara'){
-                return Redirect::to(url()->previous())->with('alert','Hanya bendahara yang dapat mengakses halaman "List Bukti Bayar" !');
-            }else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $pembayarans = DB::table('pembayaran')
+            ->latest('id_bayar')
             ->join('invoice', 'invoice.id_invoice','=','pembayaran.id_invoice')
-            ->select('invoice.id_invoice','pembayaran.id_bayar','pembayaran.nama_pengirim', 'pembayaran.bukti_bayar', DB::raw("DATE_FORMAT(pembayaran.tgl_bayar, '%d %M %Y') as tgl_bayar"))->paginate(5);
+            ->select('invoice.id_invoice','pembayaran.id_bayar','pembayaran.nama_pengirim', 'pembayaran.bukti_bayar', DB::raw("DATE_FORMAT(pembayaran.tgl_bayar, '%e %M %Y') as tgl_bayar"))->paginate(10);
             return view('home.list-bayar', ['pembayarans'=>$pembayarans]);
             }
+    }
+
+    public function cari(Request $request){
+        $cari = $request->cari;
+        
+        DB::statement("SET lc_time_names = 'id_ID';");
+        $pembayaran = DB::table('pembayaran')
+        ->latest('id_bayar')
+        ->join('invoice', 'invoice.id_invoice','=','pembayaran.id_invoice')
+        ->select('invoice.id_invoice','pembayaran.id_bayar','pembayaran.nama_pengirim', 'pembayaran.bukti_bayar', DB::raw("DATE_FORMAT(pembayaran.tgl_bayar, '%e %M %Y') as tgl_bayar"));
+        $columns = array('invoice.id_invoice','pembayaran.nama_pengirim','pembayaran.tgl_bayar');
+        $resultsArray = array();
+
+        foreach($columns as $column){
+            $pembayaran = $pembayaran->orWhere($column,'like', "%".$cari."%");
+        }
+        $pembayarans = $pembayaran->paginate(10);
+        return view('home.list-bayar', ['pembayarans'=>$pembayarans]);
+    }
+
+    public function submitBayarShow($id_invoice){
+        Session::forget('id_invoice');
+        $invoices = DB::select("select id_invoice from invoice where status='0' and id_invoice=?",[$id_invoice]);
+        if($invoices!=null){
+            return view('home.submit')->with('id_invoice',$id_invoice);
+        }else{
+            return view('home.expire');
+        }
+    }
+
+    public function expireShow(){
+        return view('home.expire');
+    }
+
+    public function successSubmit(){
+        if(Session::has('id_invoice')){
+            return view('home.submit-success');
+        }else{
+            return view('error.404');
+        }
+    }
+
+    public function submitBayarProses(Request $request, $id_invoice){
+        
+        $validator = Validator::make($request->all(), [
+            'nama_pengirim' => 'required',
+            'file_upload' => 'required',
+            'tgl_bayar'=>'required'
+        ]);
+
+        if(!$validator->fails()){
+            $id_invoice = $id_invoice;
+            $nama_pengirim = $request->nama_pengirim;
+            $file_upload = $request->file('file_upload');
+            $filename = date('YmdHi').'_'.$file_upload->getClientOriginalName();
+            $file_upload -> move(public_path('images/temp/'), $filename);
+            $tgl_bayar = $request->tgl_bayar;
+            Session::put('id_invoice',$id_invoice);
+            DB::insert('insert into approve_payment (id_invoice, nama_pengirim, bukti_bayar, tgl_bayar) values (?, ?, ?, ?)', [$id_invoice, $nama_pengirim, $filename, $tgl_bayar]);
+
+            return redirect('/submit-success');                        
+            
+        }else{
+            return redirect('/submit/'.$id_invoice)->with('alert','Isi data dengan baik dan lengkap');
         }
     }
 
@@ -39,11 +101,15 @@ class BayarController extends Controller
         }
         else{
             if(Session::get('role')!='bendahara'){
+                return Redirect::to(url()->previous())->with('alert','Hanya bendahara yang dapat mengakses halaman "List Bukti Bayar" !');
+            }else{
+            if(Session::get('role')!='bendahara'){
                 return Redirect::to(url()->previous())->with('alert','Hanya bendahara yang dapat mengakses halaman "Upload Bukti Bayar" !');
             }else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $invoices = DB::select("select id_invoice from invoice where status='0'");
             return view('home.upload-bayar',['invoices'=>$invoices]);
+            }
             }
         }
     }

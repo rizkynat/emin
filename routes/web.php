@@ -10,6 +10,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 Route::get('/dashboard', 'DashboardController@show')->name('dashboard.show');
 Route::get('/', 'DashboardController@show')->name('dashboard.index');
+Route::get('/filter-dashboard/{tahun}','DashboardController@filter')->name('filter-dashboard.show');
 
 Route::group(['middleware' => ['guest']], function() {
     //Login Routes
@@ -18,6 +19,14 @@ Route::group(['middleware' => ['guest']], function() {
 
     Route::get('/register', 'RegisterController@show')->name('register.show');
     Route::post('/register', 'RegisterController@registerProses')->name('register.proses');
+
+    Route::get('/list-notifikasi', 'NotifikasiController@show')->name('list-notifikasi.show');
+
+    Route::get('/list-akun', 'EditorController@show')->name('list-akun.show');
+    Route::get('/cari-akun','EditorController@cari')->name('cari-akun.show');
+    Route::get('/edit-akun/{id_akun}', 'EditorController@editEditorShow')->name('edit-akun.show');
+    Route::post('/edit-akun/{id_akun}', 'EditorController@editEditorProses')->name('edit-akun.proses');
+    Route::get('/hapus-akun/{id_akun}', 'EditorController@hapusEditorProses')->name('hapus-akun.proses');
 
     Route::get('/list-artikel', 'ArtikelController@show')->name('list-artikel.show');
     Route::get('/cari-artikel','ArtikelController@cari')->name('cari-artikel.show');
@@ -75,29 +84,49 @@ Route::group(['middleware' => ['guest']], function() {
     Route::post('/tambah-artstatus/{id_artikel}', 'ArtStatusController@tambahArtStatusProses')->name('tambah-artstatus.proses');
     
     Route::get('/list-invoice/', 'InvoiceController@show')->name('list-invoice.show');
+    Route::get('/cari-invoice','InvoiceController@cari')->name('cari-invoice.show');
     Route::get('/tambah-invoice/', 'InvoiceController@tambahInvoiceShow')->name('tambah-invoice.show');
     Route::post('/tambah-invoice/', 'InvoiceController@tambahInvoiceProses')->name('tambah-invoice.proses');
     Route::get('/pdf-invoice/{id_invoice}', 'InvoiceController@pdfInvoiceShow')->name('pdf-invoice.show');
     Route::get('/download-invoice/{id_invoice}', 'InvoiceController@downloadInvoiceProses')->name('download-invoice.proses');
 
     Route::get('/list-bayar/', 'BayarController@show')->name('list-bayar.show');
+    Route::get('/cari-bayar','BayarController@cari')->name('cari-bayar.show');
+    Route::get('/submit/{id_invoice}', 'BayarController@submitBayarShow')->name('submit.show');
+    Route::get('/expire', 'BayarController@expireShow')->name('expire.show');
+    Route::post('/submit/{id_invoice}', 'BayarController@submitBayarProses')->name('submit.proses');
+    Route::get('/submit-success/', 'BayarController@successSubmit')->name('success-submit.show');
     Route::get('/upload-bayar/', 'BayarController@tambahBayarShow')->name('tambah-bayar.show');
     Route::post('/upload-bayar/', 'BayarController@tambahBayarProses')->name('tambah-bayar.proses');
     Route::get('/edit-bayar/{id_bayar}', 'BayarController@editBayarShow')->name('edit-bayar.show');
     Route::post('/edit-bayar/{id_bayar}', 'BayarController@editBayarProses')->name('edit-bayar.proses');
     Route::get('/hapus-bayar/{id_bayar}/{id_invoice}', 'BayarController@hapusBayarProses')->name('hapus-bayar.proses');
+
+    Route::get('/list-approve/', 'ApproveController@show')->name('list-approve.show');
+    Route::get('/cari-approve','ApproveController@cari')->name('cari-approve.show');
+    Route::get('/kirim-approve/{id_approve}', 'ApproveController@kirimApprove')->name('kirim-approve.show');
+    Route::get('/hapus-approve/{id_approve}/{id_invoice}', 'ApproveController@hapusApprove')->name('hapus-approve.proses');
     
     Route::get('/list-kwitansi/', 'KwitansiController@show')->name('list-kwitansi.show');
+    Route::get('/cari-kwitansi','KwitansiController@cari')->name('cari-kwitansi.show');
     Route::get('/pdf-kwitansi/{id_kwitansi}', 'KwitansiController@pdfKwitansiShow')->name('pdf-kwitansi.show');
     Route::get('/download-kwitansi/{id_kwitansi}', 'KwitansiController@downloadKwitansiProses')->name('download-kwitansi.proses');
 
     Route::get('/list-loa/', 'LOAController@show')->name('list-loa.show');
+    Route::get('/cari-loa','LOAController@cari')->name('cari-loa.show');
     Route::get('/pdf-loa/{id_loa}', 'LOAController@pdfLOAShow')->name('pdf-loa.show');
     Route::get('/download-loa/{id_loa}', 'LOAController@downloadLOAProses')->name('download-loa.proses');
 
     Route::get('/list-keuangan/', 'KeuanganController@show')->name('list-keuangan.show');
+    Route::get('/cari-keuangan','KeuanganController@cari')->name('cari-keuangan.show');
     Route::get('/tambah-keuangan/', 'KeuanganController@tambahKeuanganShow')->name('tambah-keuangan.show');
     Route::post('/tambah-keuangan/', 'KeuanganController@tambahKeuanganProses')->name('tambah-keuangan.proses');
+    Route::get('/edit-keuangan/{id_keuangan}', 'KeuanganController@editKeuanganShow')->name('edit-keuangan.show');
+    Route::post('/edit-keuangan/{id_keuangan}', 'KeuanganController@editKeuanganProses')->name('edit-keuangan.proses');
+    Route::get('/hapus-keuangan/{id_keuangan}', 'KeuanganController@hapusKeuanganProses')->name('hapus-keuangan.proses');
+    Route::get('/excel-keuangan', 'KeuanganController@excelKeuanganProses')->name('excel-keuangan.proses');
+    Route::get('/csv-keuangan', 'KeuanganController@csvKeuanganProses')->name('csv-keuangan.proses');
+    
 
     //test route
     Route::get('/test/{id_review}', 'TestController@test')->name('test');

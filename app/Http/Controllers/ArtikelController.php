@@ -33,7 +33,6 @@ class ArtikelController extends Controller
             $kode_statuss = DB::select('select * from artikel_status join status on artikel_status.kode_status=status.kode_status where id_artikel_status in (select max(id_artikel_status) from `artikel_status` group by id_artikel)');
             $checkWPS = DB::select("select * from artikel_status join artikel on artikel_status.id_artikel=artikel.id_artikel where id_artikel_status in (select id_artikel_status from `artikel_status` where kode_status='wp')");
             $checkReviews = DB::select("select count(*) as jumlah, id_artikel from review group by id_artikel");
-
             
             $files = DB::table('kwitansi')
             ->join('pembayaran', 'kwitansi.id_bayar', '=', 'pembayaran.id_bayar')
@@ -44,7 +43,7 @@ class ArtikelController extends Controller
             
             $artikels = DB::table('artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
-            ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->paginate(10);
+            ->select('artikel.id_artikel','artikel.id_volume','artikel.nama_penulis','artikel.email_penulis','artikel.judul_artikel','artikel.instansi','volume.id_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'volume.no_volume')->orderBy('id_artikel', 'DESC')->paginate(10);
             return view('home.list-artikel',['artikels'=>$artikels,'checkWPS'=>$checkWPS, 'checkReviews'=>$checkReviews, 'statuss'=>$statuss, 'kode_statuss'=>$kode_statuss, 'reviews'=>$reviews, 'files'=>$files]);
         }
     }
@@ -144,7 +143,7 @@ class ArtikelController extends Controller
             'id_volume' => 'required',
             'nama_penulis' => 'required',
             'email_penulis' => 'required|min:4|email|',
-            'judul_artikel' => 'required|min:20',
+            'judul_artikel' => 'required|max:70',
             'instansi' => 'required'
 
         ]);

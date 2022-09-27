@@ -22,10 +22,29 @@ class InvoiceController extends Controller
         else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $invoices = DB::table('invoice')
+            ->latest('id_invoice')
             ->join('artikel', 'invoice.id_artikel','=','artikel.id_artikel')
-            ->select('artikel.judul_artikel', 'invoice.id_invoice', DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y, %H:%i') as tgl_invoice"))->paginate(5);
+            ->select('artikel.judul_artikel', 'invoice.id_invoice', DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%e %M %Y, %H:%i') as tgl_invoice"))->paginate(10);
             return view('home.list-invoice', ['invoices'=>$invoices]);
         }
+    }
+
+    public function cari(Request $request){
+        $cari = $request->cari;
+        
+        DB::statement("SET lc_time_names = 'id_ID';");
+        $invoice = DB::table('invoice')
+        ->latest('id_invoice')
+        ->join('artikel', 'artikel.id_artikel','=','invoice.id_artikel')
+        ->select('artikel.judul_artikel', 'invoice.id_invoice', DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%e %M %Y, %H:%i') as tgl_invoice"));
+        $columns = array('artikel.judul_artikel','invoice.id_invoice','invoice.tgl_invoice');
+        $resultsArray = array();
+
+        foreach($columns as $column){
+            $invoice = $invoice->orWhere($column,'like', "%".$cari."%");
+        }
+        $invoices = $invoice->paginate(10);
+        return view('home.list-invoice', ['invoices'=>$invoices]);
     }
 
     public function tambahInvoiceShow(){
@@ -33,8 +52,8 @@ class InvoiceController extends Controller
             return redirect('list-artikel')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            if(Session::get('role')!='chief editor'){
-                return redirect('list-invoice')->with('alert','Hanya chief editor yang dapat mengakses halaman "Tambah Invoice" !');
+            if(Session::get('role')!='bendahara'){
+                return redirect('list-invoice')->with('alert','Hanya bendahara yang dapat mengakses halaman "Tambah Invoice" !');
             }else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $artikels = DB::select("select * from artikel_status INNER JOIN artikel on artikel_status.id_artikel=artikel.id_artikel
@@ -82,7 +101,7 @@ class InvoiceController extends Controller
             ->join('invoice', 'invoice.id_artikel','=','artikel.id_artikel')
             ->join('volume', 'volume.id_volume','=','artikel.id_volume')
             ->where('invoice.id_invoice',$id_invoice)
-            ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%d %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
+            ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%e %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%e %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
             return view('home.pdf-invoice', ['invoices'=>$invoices, 'banks'=>$banks]);
         }
     }
@@ -99,7 +118,7 @@ class InvoiceController extends Controller
         ->join('invoice', 'invoice.id_artikel','=','artikel.id_artikel')
         ->join('volume', 'volume.id_volume','=','artikel.id_volume')
         ->where('invoice.id_invoice',$id_invoice)
-        ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%d %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%d %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
+        ->select('invoice.id_invoice','volume.id_volume', 'artikel.id_artikel','volume.no_volume','volume.harga',DB::raw("DATE_FORMAT(DATE_ADD(invoice.tgl_invoice, INTERVAL 2 DAY), '%e %M %Y') as jatuh_tempo"),DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), DB::raw("DATE_FORMAT(invoice.tgl_invoice, '%e %M %Y') as tgl_invoice"),'artikel.nama_penulis','artikel.instansi')->get();
         // share data to view
         $pdf = PDF::loadView('home.pdf-invoice', ['invoices'=>$invoices, 'banks'=>$banks]);
         $pdf->setOptions(['isRemoteEnabled' => true]);

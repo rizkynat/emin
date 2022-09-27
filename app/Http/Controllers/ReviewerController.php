@@ -19,7 +19,7 @@ class ReviewerController extends Controller
             return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
         }
         else{
-            $reviewers = DB::table('reviewer')->paginate(10);
+            $reviewers = DB::table('reviewer')->latest('id_reviewer')->paginate(10);
             return view('home.list-reviewer', ['reviewers'=>$reviewers]);
         }
     }
@@ -27,7 +27,7 @@ class ReviewerController extends Controller
     public function cari(Request $request){
         $cari = $request->cari;
 
-        $reviewer = DB::table('reviewer');
+        $reviewer = DB::table('reviewer')->latest('id_reviewer');
         $columns = array('nama_reviewer','kategori','instansi');
         $resultsArray = array();
 

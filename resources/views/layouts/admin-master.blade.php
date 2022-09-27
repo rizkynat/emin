@@ -3,7 +3,7 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
     <aside
-        class="z-20 hidden w-50 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+        class="scrollbar z-20 hidden w-48 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a
@@ -11,7 +11,7 @@
             href="#"
           >
           <div class="px-6 flex items-center">
-            <img class="float-left  w-6 h-6" src="{{asset('images/logo emin.png')}}"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Emin</span>
+            <a href="/dashboard"><img class="float-left  w-6 h-6" src="{{asset('images/logo emin.png')}}"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Emin</span></a>
           </div>
           </a>
           <ul class="mt-6">
@@ -97,20 +97,20 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-artikel">List Artikel</a>
+                    <a class="w-full" href="/list-artikel">Artikel</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a class="w-full" href="/list-bank">
-                      List Bank
+                      Bank
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-volume">
-                      List Volume
+                      Volume
                     </a>
                   </li>
                 </ul>
@@ -155,13 +155,13 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-reviewer">List Reviewer</a>
+                    <a class="w-full" href="/list-reviewer">Reviewer</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-status">
-                      List Status
+                      Status
                     </a>
                   </li>
                 </ul>
@@ -206,34 +206,41 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-invoice">List Invoice</a>
+                    <a class="w-full" href="/list-invoice">Invoice</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a class="w-full" href="/list-bayar">
-                      List Bukti Bayar
+                      Bukti Bayar
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-kwitansi">
-                      List Kwitansi
+                      Kwitansi
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-loa">
-                      Lihat LOA
+                      LOA
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-keuangan">
-                      Lihat Keuangan
+                      Keuangan
+                    </a>
+                  </li>
+                  <li
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                    <a  class="w-full" href="/list-approve">
+                      Approve
                     </a>
                   </li>
                 </ul>
@@ -242,13 +249,14 @@
           </ul>
             <div class="px-6 my-6">
             <a href="/register">
-              <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+              <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                 Tambah akun
-                <span class="ml-2 text-lg" aria-hidden="true">+</span>
+                <span class="text-lg" aria-hidden="true">+</span>
               </button>
             </a>
           </div>
       </aside>
+
       <div
         x-show="isSideMenuOpen"
         x-transition:enter="transition ease-in-out duration-150"
@@ -259,8 +267,10 @@
         x-transition:leave-end="opacity-0"
         class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
       ></div>
+      
+      <!--Mobile-->
       <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+        class="scrollbar inset-y-0 z-20 flex-shrink-0 w-48 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
         x-show="isSideMenuOpen"
         x-transition:enter="transition ease-in-out duration-150"
         x-transition:enter-start="opacity-0 transform -translate-x-20"
@@ -364,20 +374,20 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-artikel">List Artikel</a>
+                    <a class="w-full" href="/list-artikel">Artikel</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a class="w-full" href="/list-bank">
-                      List Bank
+                      Bank
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-volume">
-                      List Volume
+                      Volume
                     </a>
                   </li>
                 </ul>
@@ -422,13 +432,13 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-reviewer">List Reviewer</a>
+                    <a class="w-full" href="/list-reviewer">Reviewer</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-status">
-                      List Keterangan Status
+                      Status
                     </a>
                   </li>
                 </ul>
@@ -473,41 +483,41 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-invoice">List Invoice</a>
+                    <a class="w-full" href="/list-invoice">Invoice</a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="/list-bukti-bayar">
-                      List Bukti Bayar
+                    <a class="w-full" href="/list-bayar">
+                      Bukti Bayar
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-kwitansi">
-                      List Kwitansi
+                      Kwitansi
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-loa">
-                      Lihat LOA
+                      LOA
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a  class="w-full" href="/list-keuangan">
-                      Lihat Keuangan
+                      Keuangan
                     </a>
                   </li>
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a  class="w-full" href="list-evaluasi">
-                      Lihat Evaluasi
+                    <a  class="w-full" href="/list-approve">
+                      Approve
                     </a>
                   </li>
                 </ul>
@@ -516,7 +526,7 @@
           
             <div class="px-6 my-6">
             <a href="/register">
-              <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple">
+              <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                 Tambah akun
                 <span class="ml-2 text-lg" aria-hidden="true">+</span>
               </button>
@@ -532,7 +542,7 @@
           >
             <!-- Mobile hamburger -->
             <button
-              class="p-1 -ml-1 mr-5 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+              class="p-1 -ml-1 mr-5 rounded-md md:hidden focus:outline-none focus:shadow-outline-green"
               @click="toggleSideMenu"
               aria-label="Menu"
             >

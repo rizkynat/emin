@@ -21,6 +21,7 @@ class VolumeController extends Controller
         else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $volumes = DB::table('volume')
+            ->latest('id_volume')
             ->join('bank', 'volume.id_bank','=','bank.id_bank')
             ->select('volume.id_volume','volume.id_bank',DB::raw("DATE_FORMAT(volume.tahun, '%e %M %Y') as tahun"),'volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek')->paginate(10);
             return view('home.list-volume', ['volumes'=>$volumes]);
@@ -32,6 +33,7 @@ class VolumeController extends Controller
         
         DB::statement("SET lc_time_names = 'id_ID';");
         $volume = DB::table('volume')
+        ->latest('id_volume')
         ->join('bank', 'volume.id_bank','=','bank.id_bank')
         ->select('volume.id_volume','volume.id_bank',DB::raw("DATE_FORMAT(volume.tahun, '%e %M %Y') as tahun"),'volume.no_volume','volume.harga','volume.status','bank.id_bank', 'bank.nama_bank', 'bank.no_rek');
         $columns = array('bank.nama_bank','bank.no_rek','volume.tahun','volume.no_volume','volume.harga');

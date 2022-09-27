@@ -35,21 +35,21 @@
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400">Email</span>
                   <input name="email_editor" type="email"
-                    class="block w-full mt-1 text-sm  focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-input"
+                    class="block w-full mt-1 text-sm  focus:border-green-400 focus:outline-none focus:shadow-outline-green form-input"
                     placeholder="aril@domain.com"
                   />
                 </label>
                 <label class="block mt-4 text-sm">
                   <span class="text-gray-700 dark:text-gray-400">Kata Sandi</span>
                   <input name="password" 
-                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                     placeholder="**********"
                     type="password"
                   />
                 </label>
 
                 <button type="submit"
-                  class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-purple"
+                  class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green"
                 >
                 Masuk
                 </button>

@@ -15,6 +15,7 @@
     ></script>
     <script src="{{asset('assets/init-alpine.js')}}"></script>
     <script src="{{asset('assets/focus-trap.js')}}"></script>
+    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -45,162 +46,7 @@
               </div>
             </div>
             <ul class="flex items-center flex-shrink-0 space-x-6">
-              <!-- Theme toggler -->
-              <li class="flex">
-                <button
-                  class="rounded-md focus:outline-none focus:shadow-outline-green"
-                  @click="toggleTheme"
-                  aria-label="Toggle color mode"
-                >
-                  <template x-if="!dark">
-                    <svg
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="#707275"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-                      ></path>
-                    </svg>
-                  </template>
-                  <template x-if="dark">
-                    <svg
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="#707275"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </template>
-                </button>
-              </li>
-              <!-- Notifications menu -->
-              <li class="relative">
-                <button
-                  class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-green"
-                  @click="toggleNotificationsMenu"
-                  @keydown.escape="closeNotificationsMenu"
-                  aria-label="Notifications"
-                  aria-haspopup="true"
-                >
-                  <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="#707275"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
-                    ></path>
-                  </svg>
-                  <!-- Notification badge -->
-                  <span
-                    aria-hidden="true"
-                    class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-primary-font border-2 border-white rounded-full dark:border-gray-800"
-                  ></span>
-                </button>
-                <template x-if="isNotificationsMenuOpen">
-                  <ul
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    @click.away="closeNotificationsMenu"
-                    @keydown.escape="closeNotificationsMenu"
-                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
-                    aria-label="submenu"
-                  >
-                    <li class="flex">
-                      <a
-                        class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="http://localhost/scm/views/pages/lihat_notifikasi.php"
-                      >
-                        <span>Pending Order</span>
-                        <span
-                          class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600"
-                        >
-                        6
-                        </span>
-                      </a>
-                    </li>
-                    <li class="flex">
-                      <a
-                        class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="http://localhost/scm/views/pages/dashboard.php"
-                      >
-                        <span>Sales</span>
-                        <span
-                          class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600"
-                        >
-                        5
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </template>
-              </li>
-              <!-- Profile menu -->
-              <li class="relative">
-                <button
-                  class="align-middle rounded-lg focus:shadow-outline-green focus:outline-none flex items-center"
-                  @click="toggleProfileMenu"
-                  @keydown.escape="closeProfileMenu"
-                  aria-label="Account"
-                  aria-haspopup="true"
-                >
-                  <img
-                    class="object-cover w-6 h-6 rounded-full"
-                    src="{{asset('images/user-logo.png')}}"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                  <div class="text-primary-font flex-col ml-2">
-                    <div class="text-middle">{{Session::get('nama_editor')}}</div>
-                    <div class="text-small mt-1">{{Session::get('email_editor')}}
-                    <span class="bg-primary-hover text-primary-white px-0.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{Session::get('role')}}</span></div>
-                  </div>
-                </button>
-                <template x-if="isProfileMenuOpen">
-                  <ul
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    @click.away="closeProfileMenu"
-                    @keydown.escape="closeProfileMenu"
-                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
-                    aria-label="submenu"
-                  >
-                    
-                    <li class="flex">
-                      <a href="/logout"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                        <svg
-                          class="w-4 h-4 mr-3"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                          ></path>
-                        </svg>
-                        <span>Keluar</span>
-                      </a>
-                    </li>
-                  </ul>
-                </template>
-              </li>
+              @include('layouts.notifikasi')
             </ul>
           </div>
         </header>
@@ -233,12 +79,12 @@
                           @endforeach
                           </select>
                           </div>
-                          <a href="excel-artikel">
+                          <a href="/excel-artikel">
                           <button type="submit" class="p-2 ml-4 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
                             <img src="{{asset('images/excel.png')}}" width="15"/>
                           </button>
                           </a>
-                          <a href="csv-artikel">
+                          <a href="/csv-artikel">
                           <button type="submit" class="p-2 ml-2 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
                             <img src="{{asset('images/csv.png')}}" width="15"/>
                           </button>
@@ -342,7 +188,7 @@
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
                           @if($data==TRUE)
-                          <a  href="edit-artikel/{{$artikel->id_artikel}}">
+                          <a  href="{{url('/edit-artikel/'.$artikel->id_artikel)}}">
                           <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -350,7 +196,7 @@
                           </button>
                           </a>
 
-                          <a style="pointer-events: none" href="{{url('hapus-artikel/'.$artikel->id_artikel)}}">
+                          <a style="pointer-events: none" href="{{url('/hapus-artikel/'.$artikel->id_artikel)}}">
                           <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Delete">
                             <svg style="width:15px; height:15px;" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -358,7 +204,7 @@
                           </button>
                           </a>
                           @else
-                          <a href="edit-artikel/{{$artikel->id_artikel}}">
+                          <a href="{{url('/edit-artikel/'.$artikel->id_artikel)}}">
                           <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -366,13 +212,32 @@
                           </button>
                           </a>
 
-                          <a href="{{url('hapus-artikel/'.$artikel->id_artikel)}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Delete">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" data-modal-toggle="popup-modal{{$artikel->id_artikel}}" aria-label="Delete">
                             <svg style="width:15px; height:15px;" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                             </svg>
                           </button>
-                          </a>
+
+                          <div id="popup-modal{{$artikel->id_artikel}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal{{$artikel->id_artikel}}">
+                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                    <div class="p-6 text-center">
+                                        <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus?</h3>
+                                        <a href="{{url('/hapus-artikel/'.$artikel->id_artikel)}}">
+                                        <button data-modal-toggle="popup-modal{{$artikel->id_artikel}}" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                            Yes, tentu
+                                        </button>
+                                        </a>
+                                        <button data-modal-toggle="popup-modal{{$artikel->id_artikel}}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak, batal</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                           @endif
                         </div>
                       </td>
@@ -385,25 +250,25 @@
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                           @if($accept==2)
-                            <a style="pointer-events: none" href="tambah-review/{{$artikel->id_artikel}}">
+                            <a style="pointer-events: none" href="{{url('/tambah-review/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Insert">
                                 <img src="{{asset('images/insert.png')}}" width="15px">
                               </button>
                             </a>
 
-                            <a class="ml-4" href="list-review/{{$artikel->id_artikel}}">
+                            <a class="ml-4" href="{{url('/list-review/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Overview">
                                 <img src="{{asset('images/overview.png')}}" width="15px">
                               </button>
                             </a>
                           @else
-                            <a href="tambah-review/{{$artikel->id_artikel}}">
+                            <a href="{{url('/tambah-review/'.$artikel->id_artikel)}}">
                             <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Insert">
                             <img src="{{asset('images/insert.png')}}" width="15px">
                             </button>
                             </a>
 
-                            <a style="pointer-events: none" class="ml-4" href="list-review/{{$artikel->id_artikel}}">
+                            <a style="pointer-events: none" class="ml-4" href="{{url('/list-review/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Overview">
                                 <img src="{{asset('images/overview.png')}}" width="15px">
                               </button>
@@ -420,30 +285,30 @@
                           {{$kode_status->keterangan_status}}
                         </span>
                         <div class="flex mt-2">
-                          <a href="tambah-artstatus/{{$artikel->id_artikel}}">
+                          <a href="{{url('/tambah-artstatus/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="InsertStatus">
                               <img src="{{asset('images/insert.png')}}" width="15px">
                               </button>
                               </a>
                           
-                              <a class="" href="list-artstatus/{{$artikel->id_artikel}}">
+                              <a class="" href="{{url('/list-artstatus/'.$artikel->id_artikel)}}">
                               <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="OverviewStatus">
                                 <img src="{{asset('images/overview.png')}}" width="15px">
                               </button>
                             </a>
                           </div>
                           @else
-                        <span class="bg-primary-success/10 text-primary-success/70 text-xs font-semibold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
+                        <span class="bg-primary-success/10 text-primary-success/70 text-06rem font-bold px-2.5 py-0.5 rounded-lg dark:bg-green-200 dark:text-green-900">
                           {{$kode_status->keterangan_status}}
                         </span>
                         <div class="flex mt-2">
-                          <a style="pointer-events: none" href="tambah-artstatus/{{$artikel->id_artikel}}">
+                          <a style="pointer-events: none" href="{{url('/tambah-artstatus/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="InsertStatus">
                               <img src="{{asset('images/insert.png')}}" width="15px">
                               </button>
                               </a>
                           
-                              <a class="" href="list-artstatus/{{$artikel->id_artikel}}">
+                              <a class="" href="{{url('/list-artstatus/'.$artikel->id_artikel)}}">
                               <button class="ml-4 px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="OverviewStatus">
                                 <img src="{{asset('images/overview.png')}}" width="15px">
                               </button>
@@ -454,33 +319,64 @@
                       </td>
                       <td class="px-4 py-3">
                         <div class="block items-center text-xs">
-                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
                           @if($kode_status->kode_status=='wr')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
                                 Section Editor set reviewer
-                          @elseif($kode_status->kode_status=='ir')
-                          Jika ada revisi kembalikan ke author, jika tidak revision done
-                          @elseif($kode_status->kode_status=='sa')
-                                Menunggu revisi dari author
-                          @elseif($kode_status->kode_status=='rd')
-                                Check plagiarisme
-                          @elseif($kode_status->kode_status=='pd')
-                                Copy editor send author(need revision)
-                          @elseif($kode_status->kode_status=='wpr')
-                                Copy editor proses
-                          @elseif($kode_status->kode_status=='pac')
-                                Copy editor done
-                          @elseif($kode_status->kode_status=='ced')
-                                Bendahara issue invoice
-                          @elseif($kode_status->kode_status=='ii')
-                                Waiting payment
-                          @elseif($kode_status->kode_status=='wp')
-                                Bendahara approve payment
-                          @elseif($kode_status->kode_status=='plri')
-                                Layout editor publish
-                          @elseif($kode_status->kode_status=='p')
-                                Tidak ada
-                          @endif
                           </span>
+                          @elseif($kode_status->kode_status=='ir')
+                          <ul class="list-disc marker:text-primary-pink">
+                          <li>
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Jika ada revisi, kembalikan ke author
+                          </span>
+                          </li>
+                          <li class="mt-1">
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Jika tidak revision done
+                          </span>
+                          </li>
+                          </ul>
+                          @elseif($kode_status->kode_status=='sa')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Menunggu revisi dari author
+                          </span>
+                          @elseif($kode_status->kode_status=='rd')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Check plagiarisme
+                          </span>
+                          @elseif($kode_status->kode_status=='pd')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Copy editor send author(need revision)
+                          </span>
+                          @elseif($kode_status->kode_status=='wpr')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Copy editor proses
+                          </span>
+                          @elseif($kode_status->kode_status=='pac')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Copy editor done
+                          </span>
+                          @elseif($kode_status->kode_status=='ced')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Bendahara issue invoice
+                          </span>
+                          @elseif($kode_status->kode_status=='ii')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Waiting payment
+                          </span>
+                          @elseif($kode_status->kode_status=='wp')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Bendahara approve payment
+                          </span>
+                          @elseif($kode_status->kode_status=='plri')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Layout editor publish
+                          </span>
+                          @elseif($kode_status->kode_status=='p')
+                          <span class="bg-primary-pink/10 text-primary-pink tracking-wider text-06rem font-bold mr-2 px-2.5 py-0.5 mb-2 rounded-lg dark:bg-green-200 dark:text-green-900">
+                                Tidak ada
+                          </span>
+                          @endif
                         </div>
                       </td>
                       <td class="px-4 py-3 text-xs">
@@ -493,7 +389,7 @@
                       <a target="e_blank" class="text-primary-normal font-semibold underline" href="{{asset('download-kwitansi/'.$file->id_kwitansi)}}">Kwitansi</a>
                       <a target="e_blank" class="text-primary-normal font-semibold underline" href="{{asset('images/bukti_bayar/'.$file->bukti_bayar)}}">Bukti Bayar</a>
                       @else
-                      ---
+                      <span class="mr-10">---</span>
                       @endif
                       @endif
                       @endforeach
@@ -518,8 +414,6 @@
                     $(document).on("keypress", function(e) {
                       if(e.which == 47){
                         $("#input-artikel").focus();
-                      }else if(e.which == 46){
-                        window.location.assign('/list-artikel');
                       }
                     });
                   });
@@ -527,7 +421,7 @@
             </div>
               </div>
                 <div
-                  class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+                  class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 sm:grid-cols-9"
                 >
                     <!-- Help text -->
                     <span class="flex items-center col-span-3">
@@ -537,7 +431,7 @@
                     <div class="flex col-span-4 sm:mt-auto sm:justify-end mt-2">
                       <!-- Buttons -->
                       <a href="{{$artikels->previousPageUrl()}}">
-                      <button class="inline-flex items-center py-2 px-4 text-sm font-medium  leading-5 text-white  duration-150 bg-primary-normal rounded-l  hover:bg-primary-hover focus:outline-none focus:shadow-outline-green ">
+                      <button class="inline-flex items-center py-2 px-4 text-sm font-medium  leading-5 text-white  duration-150 bg-primary-normal rounded-l  hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                           <svg aria-hidden="true" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
                           Prev
                       </button>
@@ -551,5 +445,4 @@
                     </div>
                 </div>
             </div>
-            <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 @endsection

@@ -50,7 +50,7 @@ $service =new ServiceProvider();
 <div style="position:absolute;left:72.02px;top:498.31px" class="cls_005"><span class="cls_005">Bank {{$bank->nama_bank}}</span></div>
 <div style="position:absolute;left:72.02px;top:518.95px" class="cls_005"><span class="cls_005">No. Rekening: {{$bank->no_rek}}</span></div>
 <div style="position:absolute;left:72.02px;top:539.71px" class="cls_005"><span class="cls_005">Atas Nama: {{$bank->atas_nama}}</span></div>
-<div style="position:absolute;left:72.02px;top:560.38px" class="cls_005"><span class="cls_005">Bukti Transfer mohon dikirimkan kembali melalui email {{$bank->email}}</span></div>
+<div style="position:absolute;left:72.02px;top:560.38px" class="cls_005"><span class="cls_005">Bukti Transfer mohon dikirimkan kembali melalui link <a href="/submit/{{$invoices[0]->id_invoice}}">berikut</span></span></div>
 @endif
 @endforeach
 <div style="position:absolute;left:405.43px;top:617.38px" class="cls_005"><span class="cls_005">Pekanbaru, {{$invoices[0]->tgl_invoice}}</span></div>

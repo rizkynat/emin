@@ -22,11 +22,31 @@ class LOAController extends Controller
         else{
             DB::statement("SET lc_time_names = 'id_ID';");
             $loas = DB::table('loa')
+            ->latest('id_loa')
             ->join('artikel','artikel.id_artikel', '=','loa.id_artikel')
             ->join('volume', 'artikel.id_volume','=','volume.id_volume')
-            ->select('artikel.judul_artikel', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%d %M %Y') as tgl_loa"))->paginate(5);
+            ->select('artikel.judul_artikel', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%e %M %Y, %H:%i') as tgl_loa"))->paginate(10);
             return view('home.list-loa', ['loas'=>$loas]);
         }
+    }
+
+    public function cari(Request $request){
+        $cari = $request->cari;
+        
+        DB::statement("SET lc_time_names = 'id_ID';");
+        $loa = DB::table('loa')
+        ->latest('id_loa')
+        ->join('artikel','artikel.id_artikel', '=','loa.id_artikel')
+        ->join('volume', 'artikel.id_volume','=','volume.id_volume')
+        ->select('artikel.judul_artikel', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%e %M %Y, %H:%i') as tgl_loa"));
+        $columns = array('artikel.judul_artikel','loa.id_loa','loa.tgl_loa');
+        $resultsArray = array();
+
+        foreach($columns as $column){
+            $loa = $loa->orWhere($column,'like', "%".$cari."%");
+        }
+        $loas = $loa->paginate(10);
+        return view('home.list-loa', ['loas'=>$loas]);
     }
 
     public function pdfLOAShow($id_loa){
@@ -40,7 +60,7 @@ class LOAController extends Controller
             ->join('artikel','artikel.id_artikel', '=','loa.id_artikel')
             ->join('volume', 'artikel.id_volume','=','volume.id_volume')
             ->where('loa.id_loa',$id_loa)
-            ->select('artikel.judul_artikel', 'artikel.nama_penulis', 'volume.no_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'artikel.judul_artikel', 'artikel.instansi', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%d %M %Y') as tgl_loa"))->get();
+            ->select('artikel.judul_artikel', 'artikel.nama_penulis', 'volume.no_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'artikel.judul_artikel', 'artikel.instansi', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%e %M %Y') as tgl_loa"))->get();
 
             return view('home.pdf-loa', ['loas'=>$loas]);
         }
@@ -56,7 +76,7 @@ class LOAController extends Controller
         ->join('artikel','artikel.id_artikel', '=','loa.id_artikel')
         ->join('volume', 'artikel.id_volume','=','volume.id_volume')
         ->where('loa.id_loa',$id_loa)
-        ->select('artikel.judul_artikel', 'artikel.nama_penulis', 'volume.no_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'artikel.judul_artikel', 'artikel.instansi', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%d %M %Y') as tgl_loa"))->get();
+        ->select('artikel.judul_artikel', 'artikel.nama_penulis', 'volume.no_volume', DB::raw("DATE_FORMAT(volume.tahun, '%M %Y') as tahun"), 'artikel.judul_artikel', 'artikel.instansi', 'loa.id_loa', DB::raw("DATE_FORMAT(loa.tgl_loa, '%e %M %Y') as tgl_loa"))->get();
         // share data to view
         $pdf = PDF::loadView('home.pdf-loa', ['loas'=>$loas]);
         $pdf->setOptions(['isRemoteEnabled' => true]);
