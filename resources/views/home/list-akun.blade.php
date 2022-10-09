@@ -94,6 +94,7 @@
                           <th class="px-4 py-3">Password</th>
                           <th class="px-4 py-3">Email Editor</th>
                           <th class="px-4 py-3">Role</th>
+                          <th class="px-4 py-3">Aksi</th>
                         </tr>
                       </thead>
                       <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -115,7 +116,7 @@
                           <td class="px-4 py-3 text-sm">
                           {{$editor->role}}
                           </td>
-                          <td class="px-4 py-3">
+                          <td class="px-2 py-3">
                             <div class="flex items-center space-x-4 text-sm">
                               <a href="edit-akun/{{$editor->id_editor}}">
                               <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">

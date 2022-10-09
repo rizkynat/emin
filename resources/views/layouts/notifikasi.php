@@ -61,7 +61,7 @@ $notifApprove = $service->countApprove();
                   </svg>
                   <!-- Notification badge -->
                   <?php
-                  if($notifBendahara[0]->jumlah!=null and $notifApprove[0]->jumlah!=null and $notifChiefEditor[0]->jumlah!=null){?>
+                  if($notifBendahara[0]->jumlah!=0 or $notifApprove[0]->jumlah!=0 or $notifChiefEditor[0]->jumlah!=0){?>
                     <span aria-hidden="true" class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
                     ></span>
                   <?php
@@ -70,7 +70,7 @@ $notifApprove = $service->countApprove();
                   <span
                     aria-hidden="true"
                     fill="red"
-                    class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-primary-font border-2 border-white rounded-full dark:border-gray-800"
+                    class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-gray-400 border-2 border-white rounded-full dark:border-gray-800"
                   ></span>
                   <?php
                   }

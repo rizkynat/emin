@@ -83,15 +83,14 @@
                         $i=1
                         @endphp
                         @foreach ($volumes_status as $volume_status)
-                            @if($artikels[0]->id_volume==$volume_status->id_volume)
-                            <option selected value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
-                            @else
+                            @if($artikels[0]->id_volume!=$volume_status->id_volume)
                             <option value="{{$volume_status->id_volume}}">{{$volume_status->tahun}} - {{$volume_status->no_volume}}</option>
                             @endif
                             @php
                             $i++
                             @endphp
                         @endforeach
+                        <option selected value="{{$artikels[0]->id_volume}}">{{$artikels[0]->tahun}} - {{$artikels[0]->no_volume}}</option>
                         </select>
                     </label>
                     <label class="block text-sm mt-4">

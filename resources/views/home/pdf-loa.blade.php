@@ -23,7 +23,7 @@ div.cls_002{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weigh
 </div>
 <div style="position:absolute;left:405.43px;top:144.50px" class="cls_004"><span class="cls_004">Pekanbaru, {{$loas[0]->tgl_loa}}</span></div>
 <div style="position:absolute;left:72.02px;top:165.26px" class="cls_004"><span class="cls_004">No</span></div>
-<div style="position:absolute;left:108.02px;top:165.26px" class="cls_004"><span class="cls_004">: {{str_pad(substr($loas[0]->id_loa, 0, 4), 4, '0', STR_PAD_LEFT).'/LOA/JKT/PCR/2022'}}</span></div>
+<div style="position:absolute;left:108.02px;top:165.26px" class="cls_004"><span class="cls_004">: {{str_pad(substr($loas[0]->id_loa, 0, 4), 4, '0', STR_PAD_LEFT).'/LOA/JKT/PCR/'.date("Y")}}</span></div>
 <div style="position:absolute;left:72.02px;top:185.90px" class="cls_004"><span class="cls_004">Hal</span></div>
 <div style="position:absolute;left:108.02px;top:185.90px" class="cls_004"><span class="cls_004">: </span><span class="cls_005">Letter of Acceptance</span></div>
 <div style="position:absolute;left:72.02px;top:227.33px" class="cls_004"><span class="cls_004">Kepada Yth:</span></div>

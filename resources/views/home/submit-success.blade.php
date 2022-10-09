@@ -33,7 +33,7 @@
             <div class="flex justify-center">
               <div class="">
                   <div class="flex items-center">
-                      <img class="float-left  w-6 h-6" src="{{asset('images/logo emin.png')}}"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Eminh</span>
+                      <img class="float-left  w-6 h-6" src="{{asset('images/logo emin.png')}}"> <span class="ml-3 text-primary-font" style="font-family: 'Podkova', serif;">Emin</span>
                   </div>
               </div>
             </div>

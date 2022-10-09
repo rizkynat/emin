@@ -95,7 +95,7 @@
                       {{$kwitansi->judul_artikel}}
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">{{str_pad(substr($kwitansi->id_kwitansi, 0, 4), 4, '0', STR_PAD_LEFT).'/KWT/JKT/PCR/2022'}}</p>
+                      <p class="truncate">{{str_pad(substr($kwitansi->id_kwitansi, 0, 4), 4, '0', STR_PAD_LEFT).'/KWT/JKT/PCR/'.date("Y")}}</p>
                       </td>
                       <td class="px-4 py-3 text-sm">
                       <div class="flex items-center space-x-4 text-sm">

@@ -16,13 +16,14 @@ use DB;
 
 class TestController extends Controller
 {
-    public function test($id_approve){
-        session_start();
-        echo session_id();
-        $approve = Approve::find($id_approve);
-        $isFile = 'images/temp/'.$approve->bukti_bayar;
-        $pindah = copy($isFile, 'images/bukti_bayar/'.$approve->bukti_bayar);
-        return $approve;
+    public function test($id_artikel){
+        $reviews = DB::table('review')
+        ->join('reviewer', 'review.id_reviewer','=','reviewer.id_reviewer')
+        ->join('artikel', 'review.id_artikel','=','artikel.id_artikel')
+        ->where('artikel.id_artikel',$id_artikel)
+        ->select('review.id_review','review.catatan', 'review.id_artikel', DB::raw("DATE_FORMAT(review.tgl_review, '%d %M %Y') as tanggal"),'reviewer.nama_reviewer','artikel.nama_penulis','artikel.judul_artikel')->paginate(2);
+        $data = DB::select('select count(*) as jumlah from review where id_artikel=?',[$id_artikel]);
+            return $data[0]->jumlah;
     }
 
 

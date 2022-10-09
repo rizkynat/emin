@@ -64,17 +64,28 @@ class ReviewController extends Controller
             $id_reviewer_eksternal = $request->id_reviewer_eksternal;
             $catatan_eksternal = $request->catatan_eksternal;
 
-            DB::insert('insert into review (id_artikel, id_reviewer, catatan) values (?, ? , ?)', [$id_artikel_internal, $id_reviewer_internal, $catatan_internal]);
-            DB::insert('insert into review (id_artikel, id_reviewer, catatan) values (?, ? , ?)', [$id_artikel_eksternal, $id_reviewer_eksternal, $catatan_eksternal]);
-            DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['ir', $id_artikel]);
-            
+            if($id_artikel_eksternal == 'Tidak ada' or $catatan_eksternal == 'Tidak ada'){
+                DB::insert('insert into review (id_artikel, id_reviewer, catatan) values (?, ? , ?)', [$id_artikel_internal, $id_reviewer_internal, $catatan_internal]);
+                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['ir', $id_artikel]);
+                if($catatan_internal == 'Accepted'){
+                    DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['rd', $id_artikel]);
+                }elseif($catatan_internal == 'Revisi'){
+                    DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
+                }
+            }else{
 
-            if($catatan_eksternal == 'Accepted' and $catatan_internal == 'Accepted'){
-                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['rd', $id_artikel]);
-            }elseif($catatan_eksternal == 'Revisi' and $catatan_internal == 'Revisi'){
-                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
-            }elseif(($catatan_internal == 'Revisi' and $catatan_eksternal == 'Accepted') or ($catatan_eksternal=='Revisi' and $catatan_internal=='Accepted')){
-                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
+                DB::insert('insert into review (id_artikel, id_reviewer, catatan) values (?, ? , ?)', [$id_artikel_internal, $id_reviewer_internal, $catatan_internal]);
+                DB::insert('insert into review (id_artikel, id_reviewer, catatan) values (?, ? , ?)', [$id_artikel_eksternal, $id_reviewer_eksternal, $catatan_eksternal]);
+                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['ir', $id_artikel]);
+                
+
+                if($catatan_eksternal == 'Accepted' and $catatan_internal == 'Accepted'){
+                    DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['rd', $id_artikel]);
+                }elseif($catatan_eksternal == 'Revisi' and $catatan_internal == 'Revisi'){
+                    DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
+                }elseif(($catatan_internal == 'Revisi' and $catatan_eksternal == 'Accepted') or ($catatan_eksternal=='Revisi' and $catatan_internal=='Accepted')){
+                    DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
+                }
             }
                  
             return redirect('list-review/'.$id_artikel)->with('alert-success','Data review berhasil ditambahkan');
@@ -122,11 +133,20 @@ class ReviewController extends Controller
 
     public function  checkReview($id_artikel){
         $data = DB::select('select * from review where id_artikel=?',[$id_artikel]);
+        $checkInternalOnly = DB::select('select count(*) as jumlah from review where id_artikel=?',[$id_artikel]);
+        if($checkInternalOnly[0]->jumlah == 1){
+            if($data[0]->catatan == 'Revisi'){
+                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
+            }elseif($data[0]->catatan=='Accepted'){
+                DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['rd', $id_artikel]);
+            }
+        }else{
             if($data[0]->catatan == 'Revisi' and $data[1]->catatan=='Revisi'){
                 DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['sa', $id_artikel]);
             }elseif($data[0]->catatan=='Accepted' and $data[1]->catatan == 'Accepted'){
                 DB::insert('insert into artikel_status (kode_status, id_artikel) values(?, ?)',['rd', $id_artikel]);
             }
+        }
     }
 
 }

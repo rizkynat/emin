@@ -103,7 +103,7 @@
                       {{$invoice->judul_artikel}}
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
-                      <p class="truncate">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}</p>
+                      <p class="truncate">{{str_pad(substr($invoice->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/'.date('Y')}}</p>
                       </td>
                       <td class="px-4 py-3 text-sm">
                       <div class="flex items-center space-x-4 text-sm">

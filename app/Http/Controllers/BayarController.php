@@ -82,7 +82,8 @@ class BayarController extends Controller
             $id_invoice = $id_invoice;
             $nama_pengirim = $request->nama_pengirim;
             $file_upload = $request->file('file_upload');
-            $filename = date('YmdHi').'_'.$file_upload->getClientOriginalName();
+            $extension = pathinfo($file_upload->getClientOriginalName(), PATHINFO_EXTENSION);
+            $filename = date('YmdHi').'_BuktiBayar.'.$extension;
             $file_upload -> move(public_path('images/temp/'), $filename);
             $tgl_bayar = $request->tgl_bayar;
             Session::put('id_invoice',$id_invoice);
@@ -128,7 +129,8 @@ class BayarController extends Controller
             $id_invoice = $request->id_invoice;
             $nama_pengirim = $request->nama_pengirim;
             $file_upload = $request->file('file_upload');
-            $filename = date('YmdHi').'_'.$file_upload->getClientOriginalName();
+            $extension = pathinfo($file_upload->getClientOriginalName(), PATHINFO_EXTENSION);
+            $filename = date('YmdHi').'_BuktiBayar.'.$extension;
             $file_upload -> move(public_path('images/bukti_bayar/'), $filename);
             $tgl_bayar = $request->tgl_bayar;
             DB::insert('insert into pembayaran (id_invoice, nama_pengirim, bukti_bayar, tgl_bayar) values (?, ?, ?, ?)', [$id_invoice, $nama_pengirim, $filename, $tgl_bayar]);
@@ -187,7 +189,8 @@ class BayarController extends Controller
 
             DB::update('update keuangan set nominal=?, tgl_keuangan=? where foto_kwitansi=?', [$invoice[0]->harga, $tgl_bayar, $bayar->bukti_bayar]);
         }else{
-            $filename = date('YmdHi').'_'.$file_upload->getClientOriginalName();
+            $extension = pathinfo($file_upload->getClientOriginalName(), PATHINFO_EXTENSION);
+            $filename = date('YmdHi').'_BuktiBayar.'.$extension;
             $path = public_path('images/bukti_bayar/').$bayar->bukti_bayar;
             unlink($path);
             $file_upload -> move(public_path('images/bukti_bayar/'), $filename);
@@ -196,7 +199,7 @@ class BayarController extends Controller
             DB::update('update pembayaran set nama_pengirim=?, bukti_bayar=?, tgl_bayar=? where id_bayar=?',
             [$nama_pengirim, $filename, $tgl_bayar, $id_bayar]);
         }
-        return redirect('list-bayar/')->with('alert','Data bukti bayar berhasil diedit !');
+        return redirect('list-bayar/')->with('alert-success','Data bukti bayar berhasil diedit !');
         
     }
 

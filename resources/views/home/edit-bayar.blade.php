@@ -83,7 +83,7 @@
                     @csrf
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Id Invoice</span>
-                        <input readonly type="text" value="{{str_pad(substr($pembayarans[0]->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                        <input readonly type="text" value="{{str_pad(substr($pembayarans[0]->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/'.date('Y')}}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-primary-hover focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     </label>
                     
                     <label class="block text-sm mt-4">

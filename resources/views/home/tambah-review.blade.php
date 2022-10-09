@@ -91,8 +91,8 @@
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Catatan Internal</span>
                         <select name="catatan_internal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
-                            <option value="Revisi">Revisi</option>
                             <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
                             <option value="Accepted">Accepted</option>
                         </select>
                     </label>
@@ -100,6 +100,7 @@
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Nama Reviewer Eksternal</span>
                         <select name="id_reviewer_eksternal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
+                        <option value="Tidak ada">Tidak ada</option>
                         @foreach ($reviewers as $reviewer)
                         @if($reviewer->kategori=='Eksternal')
                             <option value="{{$reviewer->id_reviewer}}">{{$reviewer->nama_reviewer}}</option>
@@ -111,8 +112,9 @@
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Catatan Eksternal</span>
                         <select name="catatan_eksternal" class="scrollbar block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-green dark:focus:shadow-outline-gray" multiple="">
-                            <option value="Revisi">Revisi</option>
+                            <option value="Tidak ada">Tidak ada</option>
                             <option value="Re-Submit For Review">Re-Submit For Review</option>
+                            <option value="Revisi">Revisi</option>
                             <option value="Accepted">Accepted</option>
                         </select>
                     </label>

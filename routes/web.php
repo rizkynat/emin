@@ -9,7 +9,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 //Route::post('/LoginController', 'LoginController');
 
 Route::get('/dashboard', 'DashboardController@show')->name('dashboard.show');
-Route::get('/', 'DashboardController@show')->name('dashboard.index');
+Route::get('/', 'LogoutController@out')->name('logout.out');
 Route::get('/filter-dashboard/{tahun}','DashboardController@filter')->name('filter-dashboard.show');
 
 Route::group(['middleware' => ['guest']], function() {
@@ -119,6 +119,7 @@ Route::group(['middleware' => ['guest']], function() {
 
     Route::get('/list-keuangan/', 'KeuanganController@show')->name('list-keuangan.show');
     Route::get('/cari-keuangan','KeuanganController@cari')->name('cari-keuangan.show');
+    Route::get('/filter-keuangan/{kode_status}','KeuanganController@filter')->name('filter-keuangan.show');
     Route::get('/tambah-keuangan/', 'KeuanganController@tambahKeuanganShow')->name('tambah-keuangan.show');
     Route::post('/tambah-keuangan/', 'KeuanganController@tambahKeuanganProses')->name('tambah-keuangan.proses');
     Route::get('/edit-keuangan/{id_keuangan}', 'KeuanganController@editKeuanganShow')->name('edit-keuangan.show');

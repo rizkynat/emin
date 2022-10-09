@@ -17,6 +17,7 @@ module.exports = {
         'normal':'#9AAB89',
         'hover':'#B5C7A3',
         'font':'#707275',
+        'gra':'#707275',
         'white':'#FFFFFF',
         'opacity':'#D5D6D7',
         'overview':'#3F83F8',

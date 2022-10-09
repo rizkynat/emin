@@ -26,7 +26,7 @@
               <div
                 class="w-full max-w-xl mx-auto focus-within:text-primary-font"
               >
-                <form action="cari-keuangan" method="get" class="relative flex items-cente4r">
+                <form action="/cari-keuangan" method="get" class="relative flex items-cente4r">
                   <input
                     id="input-keuangan"
                     name="cari"
@@ -61,20 +61,29 @@
                     <div class="bg-primary-normal w-60 h-8 shadow-md rounded-r-3xl"><span class="ml-4 text-primary-white">List Keuangan</span></div>
                     </h4>
                     <div class="mb-4">
+                    <div class="flex items-center">
                     <a href="/tambah-keuangan">
                       <button class="items-center justify-between px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-lg active:bg-primary-normal hover:bg-primary-hover focus:outline-none focus:shadow-outline-green">
                         Tambah Keuangan
                         <span class="ml-2" aria-hidden="true">+</span>
                       </button>
                     </a>
+                    <div>
+                          <select id="filter_volume" name="filter_volume" class="p-2 ml-2 w-32 text-sm font-medium text-primary-normal rounded-lg border-2 border-primary-normal focus:ring-primary-hover focus:border-primary-hover">
+                          <option selected>Pilih volume</option>  
+                          @foreach($volumes as $volume)
+                          <option value="{{$volume->no_volume}}">{{$volume->no_volume}}</option>
+                          @endforeach
+                          </select>
+                          </div>
                     <a href="/excel-keuangan">
                           <button type="submit" class="p-2 ml-4 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
-                            <img src="{{asset('images/excel.png')}}" width="15"/>
+                            <img src="{{asset('/images/excel.png')}}" width="15"/>
                           </button>
                           </a>
                           <a href="/csv-keuangan">
                           <button type="submit" class="p-2 ml-2 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
-                            <img src="{{asset('images/csv.png')}}" width="15"/>
+                            <img src="{{asset('/images/csv.png')}}" width="15"/>
                           </button>
                           </a>
                       @if(\Session::has('alert-success'))              
@@ -94,6 +103,7 @@
                           </div>
                         </div>
                       @endif
+                    </div>
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-2 xl:grid-cols-4">
                       <!-- Card -->
@@ -185,13 +195,13 @@
                         @if($keuangan->status == 'Uang masuk')
                         <a href="{{asset('images/bukti_bayar/'.$keuangan->foto_kwitansi)}}" target="_blank">
                             <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Insert">
-                            <img src="images/image.png" width="15px">
+                            <img src="/images/image.png" width="15px">
                             </button>
                         </a>
                         @else
-                        <a href="{{asset('images/keuangan/'.$keuangan->foto_kwitansi)}}" target="_blank">
+                        <a href="{{asset('/images/keuangan/'.$keuangan->foto_kwitansi)}}" target="_blank">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Insert">
-                                <img src="images/image.png" width="15px">
+                                <img src="/images/image.png" width="15px">
                               </button>
                             </a>
                             @endif
@@ -253,6 +263,14 @@
                       }
                     });
                   });
+
+                  $(document).ready(function(){
+                    $('#filter_volume').change(function(){
+                      var kode_status = $(this).val();
+                      console.log(kode_status);
+                      window.location.assign('/filter-keuangan/'+kode_status);
+                    });
+                   });
               </script>
             </div>
             </div>

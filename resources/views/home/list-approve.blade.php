@@ -95,7 +95,7 @@
                     @foreach ($approves as $approve)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3 text-sm">
-                      {{str_pad(substr($approve->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022'}}
+                      {{str_pad(substr($approve->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/'.date('Y')}}
                       </td>
                       <td class="px-4 py-3 text-sm  justify-between">
                       <p class="truncate">{{$approve->nama_pengirim}}</p>

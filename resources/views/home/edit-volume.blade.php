@@ -80,15 +80,14 @@
                         $i=1
                         @endphp
                         @foreach ($banks_status as $bank_status)
-                            @if($volumes[0]->id_bank==$bank_status->id_bank)
-                            <option selected value="{{$bank_status->id_bank}}">{{$bank_status->nama_bank}} - {{$bank_status->no_rek}}</option>
-                            @else
+                            @if($volumes[0]->id_bank!=$bank_status->id_bank)
                             <option value="{{$bank_status->id_bank}}">{{$bank_status->nama_bank}} - {{$bank_status->no_rek}}</option>
                             @endif
                             @php
                             $i++
                             @endphp
                         @endforeach
+                        <option selected value="{{$volumes[0]->id_bank}}">{{$volumes[0]->nama_bank}} - {{$volumes[0]->no_rek}}</option>
                         </select>
                     </label>
                     <label class="block text-sm mt-4">

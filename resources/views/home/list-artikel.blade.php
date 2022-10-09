@@ -79,6 +79,14 @@
                           @endforeach
                           </select>
                           </div>
+                          <div>
+                          <select id="filter_volume" name="filter_volume" class="p-2 ml-4 w-32 text-sm font-medium text-primary-normal rounded-lg border-2 border-primary-normal focus:ring-primary-hover focus:border-primary-hover">
+                          <option selected>Pilih volume</option>  
+                          @foreach($volumes as $volume)
+                          <option value="{{$volume->no_volume}}">{{$volume->no_volume}}</option>
+                          @endforeach
+                          </select>
+                          </div>
                           <a href="/excel-artikel">
                           <button type="submit" class="p-2 ml-4 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
                             <img src="{{asset('images/excel.png')}}" width="15"/>
@@ -188,8 +196,8 @@
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
                           @if($data==TRUE)
-                          <a  href="{{url('/edit-artikel/'.$artikel->id_artikel)}}">
-                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Edit">
+                          <a style="pointer-events: none" href="{{url('/edit-artikel/'.$artikel->id_artikel)}}">
+                          <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Edit">
                             <svg style="width:15px; height:15px;" class="" aria-hidden="true" fill="#ffffff" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                             </svg>
@@ -410,6 +418,15 @@
                       window.location.assign('/filter-artikel/'+kode_status);
                     });
                    });
+
+                   $(document).ready(function(){
+                    $('#filter_volume').change(function(){
+                      var kode_status = $(this).val();
+                      console.log(kode_status);
+                      window.location.assign('/filter-artikel/'+kode_status);
+                    });
+                   });
+
                   $(function(){
                     $(document).on("keypress", function(e) {
                       if(e.which == 47){

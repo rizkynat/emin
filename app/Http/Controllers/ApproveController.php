@@ -55,7 +55,7 @@ class ApproveController extends Controller
             $nama_pengirim = $approve->nama_pengirim;
             $filename = $approve->bukti_bayar;
             $tempFile = 'images/temp/'.$filename;
-            $destination = 'images/bukti_bayar'.$filename;
+            $destination = 'images/bukti_bayar/'.$filename;
             $file_upload = copy($tempFile, $destination);
             $tgl_bayar = $approve->tgl_bayar;
             
@@ -68,7 +68,7 @@ class ApproveController extends Controller
             ->where('invoice.id_invoice',$id_invoice)
             ->select('invoice.id_invoice', 'volume.harga', 'invoice.tgl_invoice', 'artikel.id_artikel')->get(); 
             
-            $deskripsi = str_pad(substr($id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/2022';
+            $deskripsi = str_pad(substr($id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/'.date('Y');
             DB::insert('insert into keuangan (deskripsi, status, foto_kwitansi, nominal, tgl_keuangan) values(?, ?, ?, ?, ?)', [$deskripsi, 'Uang masuk', $filename, $invoice[0]->harga, $tgl_bayar]);
             
             $kode_status = 'plri';

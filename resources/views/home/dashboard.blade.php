@@ -127,6 +127,12 @@
     const currentYear = <?php echo $currentYear; ?>;
     const uangMasuk = <?php echo $uangMasuk; ?>;
     const uangKeluar = <?php echo $uangKeluar; ?>;
+    const rupiah = (number)=>{
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+  }
     const barChartData = {
         labels: <?php echo $bulan; ?>,
         datasets: [
@@ -142,12 +148,20 @@
           }
       ]
     };
+        
 
         const ctxBar = document.getElementById("bar").getContext("2d");
         const Bar = new Chart(ctxBar, {
             type: 'bar',
             data: barChartData,
             options: {
+              tooltips: {
+        callbacks: {
+            label: function(tooltipItem) {
+                return rupiah(Number(tooltipItem.yLabel));
+            }
+        }
+    },
                 responsive: true,
                 title: {
                     display: true,
@@ -155,6 +169,9 @@
                 },
                 scales: {
                   xAxes: [{
+                    gridLines: {
+                      display: false,
+                    },
                     display: true,
                     scaleLabel: {
                       display: true,
@@ -176,34 +193,139 @@
 <script>
   const status = <?php echo $status;?>;
   const jml_status = <?php echo $jml_status;?>;
-    const pieChartData = {
-        labels: status,
-        datasets: [
-          {
-        data: jml_status,
-        /**
-         * These colors come from Tailwind CSS palette
-         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
-         */
-        backgroundColor: ['#E94560', '#1c64f2', '#7e3af2', '#0E9F6E', '#F05252', '#F57328','#1C6758', '#0694a2', '#FF9551', '#FBDF07', '#42032C', '#1CD6CE'],
-        label: 'Dataset 1',
+
+  var config = {
+  type: 'doughnutLabels',
+  data: {
+    datasets: [{
+      data: jml_status,
+      backgroundColor: ['#E94560', '#1c64f2', '#7e3af2', '#0E9F6E', '#F05252', '#F57328','#1C6758', '#0694a2', '#FF9551', '#FBDF07', '#42032C', '#1CD6CE'],
+      label: 'Dataset 1'
+    }],
+    labels: status
+  },
+  options: {
+    responsive: true,
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Status Artikel'
+    },
+    animation: {
+      animateScale: true,
+      animateRotate: true
+    }
+  }
+};
+
+Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
+
+var helpers = Chart.helpers;
+var defaults = Chart.defaults;
+
+Chart.controllers.doughnutLabels = Chart.controllers.doughnut.extend({
+	updateElement: function(arc, index, reset) {
+    var _this = this;
+    var chart = _this.chart,
+        chartArea = chart.chartArea,
+        opts = chart.options,
+        animationOpts = opts.animation,
+        arcOpts = opts.elements.arc,
+        centerX = (chartArea.left + chartArea.right) / 2,
+        centerY = (chartArea.top + chartArea.bottom) / 2,
+        startAngle = opts.rotation, // non reset case handled later
+        endAngle = opts.rotation, // non reset case handled later
+        dataset = _this.getDataset(),
+        circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : _this.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
+        innerRadius = reset && animationOpts.animateScale ? 0 : _this.innerRadius,
+        outerRadius = reset && animationOpts.animateScale ? 0 : _this.outerRadius,
+        custom = arc.custom || {},
+        valueAtIndexOrDefault = helpers.getValueAtIndexOrDefault;
+
+    helpers.extend(arc, {
+      // Utility
+      _datasetIndex: _this.index,
+      _index: index,
+
+      // Desired view properties
+      _model: {
+        x: centerX + chart.offsetX,
+        y: centerY + chart.offsetY,
+        startAngle: startAngle,
+        endAngle: endAngle,
+        circumference: circumference,
+        outerRadius: outerRadius,
+        innerRadius: innerRadius,
+        label: valueAtIndexOrDefault(dataset.label, index, chart.data.labels[index])
       },
-      ]
-    };
+
+      draw: function () {
+      	var ctx = this._chart.ctx,
+						vm = this._view,
+						sA = vm.startAngle,
+						eA = vm.endAngle,
+						opts = this._chart.config.options;
+				
+					var labelPos = this.tooltipPosition();
+					var segmentLabel = vm.circumference / opts.circumference * 100;
+					
+					ctx.beginPath();
+					
+					ctx.arc(vm.x, vm.y, vm.outerRadius, sA, eA);
+					ctx.arc(vm.x, vm.y, vm.innerRadius, eA, sA, true);
+					
+					ctx.closePath();
+					ctx.strokeStyle = vm.borderColor;
+					ctx.lineWidth = vm.borderWidth;
+					
+					ctx.fillStyle = vm.backgroundColor;
+					
+					ctx.fill();
+					ctx.lineJoin = 'bevel';
+					
+					if (vm.borderWidth) {
+						ctx.stroke();
+					}
+					
+					if (vm.circumference > 0.15) { // Trying to hide label when it doesn't fit in segment
+						ctx.beginPath();
+						ctx.font = helpers.fontString(opts.defaultFontSize, opts.defaultFontStyle, opts.defaultFontFamily);
+						ctx.fillStyle = "#fff";
+						ctx.textBaseline = "top";
+						ctx.textAlign = "center";
+            
+            // Round percentage in a way that it always adds up to 100%
+						ctx.fillText(segmentLabel.toFixed(0) + "%", labelPos.x, labelPos.y);
+					}
+      }
+    });
+
+        var model = arc._model;
+        model.backgroundColor = custom.backgroundColor ? custom.backgroundColor : valueAtIndexOrDefault(dataset.backgroundColor, index, arcOpts.backgroundColor);
+        model.hoverBackgroundColor = custom.hoverBackgroundColor ? custom.hoverBackgroundColor : valueAtIndexOrDefault(dataset.hoverBackgroundColor, index, arcOpts.hoverBackgroundColor);
+        model.borderWidth = custom.borderWidth ? custom.borderWidth : valueAtIndexOrDefault(dataset.borderWidth, index, arcOpts.borderWidth);
+        model.borderColor = custom.borderColor ? custom.borderColor : valueAtIndexOrDefault(dataset.borderColor, index, arcOpts.borderColor);
+
+        // Set correct angles if not resetting
+        if (!reset || !animationOpts.animateRotate) {
+          if (index === 0) {
+            model.startAngle = opts.rotation;
+          } else {
+            model.startAngle = _this.getMeta().data[index - 1]._model.endAngle;
+          }
+
+          model.endAngle = model.startAngle + model.circumference;
+        }
+
+        arc.pivot();
+      }
+    });
 
 
-        const ctxPie = document.getElementById("pie").getContext("2d");
-        const Pie = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: pieChartData,
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Jumlah Artikel berdasarkan status'
-                },
-            }
-        });
+  const ctxPie = document.getElementById("pie").getContext("2d");
+  const Pie = new Chart(ctxPie, config);
 
 </script>
 <script type="text/javascript">

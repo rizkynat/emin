@@ -23,12 +23,13 @@ class KeuanganController extends Controller
         }
         else{
             DB::statement("SET lc_time_names = 'id_ID';");
+            $volumes = DB::select('select distinct no_volume from volume');
             $uangMasuk = DB::select("select sum(nominal) as nominal from keuangan where status='Uang masuk'");
             $uangKeluar = DB::select("select sum(nominal) as nominal from keuangan where status='Uang keluar'");
             $keuangans = DB::table('keuangan')
             ->latest('id_keuangan')
             ->select('keuangan.deskripsi', 'keuangan.id_keuangan', 'keuangan.status', 'keuangan.foto_kwitansi', 'keuangan.nominal', DB::raw("DATE_FORMAT(keuangan.tgl_keuangan, '%e %M %Y') as tgl_keuangan"))->paginate(10);
-            return view('home.list-keuangan', ['keuangans'=>$keuangans, 'uangMasuk'=>$uangMasuk, 'uangKeluar'=>$uangKeluar]);
+            return view('home.list-keuangan', ['keuangans'=>$keuangans,'volumes'=>$volumes, 'uangMasuk'=>$uangMasuk, 'uangKeluar'=>$uangKeluar]);
         }
     }
 
@@ -36,6 +37,7 @@ class KeuanganController extends Controller
         $cari = $request->cari;
         
         DB::statement("SET lc_time_names = 'id_ID';");
+        $volumes = DB::select('select distinct no_volume from volume');
         $uangMasuk = DB::select("select sum(nominal) as nominal from keuangan where status='Uang masuk'");
         $uangKeluar = DB::select("select sum(nominal) as nominal from keuangan where status='Uang keluar'");
         $keuangan = DB::table('keuangan')
@@ -48,7 +50,30 @@ class KeuanganController extends Controller
             $keuangan = $keuangan->orWhere($column,'like', "%".$cari."%");
         }
         $keuangans = $keuangan->paginate(10);
-        return view('home.list-keuangan', ['keuangans'=>$keuangans, 'uangMasuk'=>$uangMasuk, 'uangKeluar'=>$uangKeluar]);
+        return view('home.list-keuangan', ['keuangans'=>$keuangans, 'volumes'=>$volumes, 'uangMasuk'=>$uangMasuk, 'uangKeluar'=>$uangKeluar]);
+    }
+
+    public function filter(Request $request, $kode_status){
+        if(Session::get('login')==null){
+            return redirect('login')->with('alert','Anda belum login, silahkan login terlebih dahulu');
+        }
+        else{
+            $filter = $kode_status;
+            DB::statement("SET lc_time_names = 'id_ID';");
+            $volumes = DB::select('select distinct no_volume from volume');
+            $filter_volumes = DB::select("select invoice.id_invoice from artikel join invoice on invoice.id_artikel=artikel.id_artikel join volume on volume.id_volume=artikel.id_volume where volume.no_volume like '%".$filter."%'"); 
+            $filter_array = array();
+                foreach($filter_volumes as $filter_volume){
+                    array_push($filter_array, str_pad(substr($filter_volume->id_invoice, 0, 4), 4, '0', STR_PAD_LEFT).'/INV/JKT/PCR/'.date('Y'));
+                }
+            $uangMasuk = DB::select("select sum(nominal) as nominal from keuangan where status='Uang masuk'");
+            $uangKeluar = DB::select("select sum(nominal) as nominal from keuangan where status='Uang keluar'");
+            $keuangans = DB::table('keuangan')
+            ->whereIn('keuangan.deskripsi', $filter_array)
+            ->latest('id_keuangan')
+            ->select('keuangan.deskripsi', 'keuangan.id_keuangan', 'keuangan.status', 'keuangan.foto_kwitansi', 'keuangan.nominal', DB::raw("DATE_FORMAT(keuangan.tgl_keuangan, '%e %M %Y') as tgl_keuangan"))->paginate(10);
+            return view('home.list-keuangan', ['keuangans'=>$keuangans,'volumes'=>$volumes, 'uangMasuk'=>$uangMasuk, 'uangKeluar'=>$uangKeluar]);
+        }
     }
 
     public function tambahKeuanganShow(){
@@ -78,7 +103,8 @@ class KeuanganController extends Controller
             $deskripsi = $request->deskripsi;
             $status = $request->status;
             $foto_kwitansi = $request->file('foto_kwitansi');
-            $filename = date('YmdHi').'_'.$foto_kwitansi->getClientOriginalName();
+            $extension = pathinfo($foto_kwitansi->getClientOriginalName(), PATHINFO_EXTENSION);
+            $filename = date('YmdHi').'_Keuangan.'.$extension;
             $foto_kwitansi -> move(public_path('images/keuangan/'), $filename);
             $nominal = $request->nominal;
             $tgl_keuangan = $request->tgl_keuangan;
@@ -115,7 +141,8 @@ class KeuanganController extends Controller
             DB::update('update keuangan set deskripsi=?, nominal=?, tgl_keuangan=? where id_keuangan=?',
             [$deskripsi, $nominal, $tgl_keuangan, $id_keuangan]);
         }else{
-            $filename = date('YmdHi').'_'.$foto_kwitansi->getClientOriginalName();
+            $extension = pathinfo($foto_kwitansi->getClientOriginalName(), PATHINFO_EXTENSION);
+            $filename = date('YmdHi').'_Keuangan.'.$extension;
             $path = public_path('images/keuangan/').$keuangan->foto_kwitansi;
             unlink($path);
             $foto_kwitansi->move(public_path('images/keuangan/'), $filename);
