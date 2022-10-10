@@ -68,7 +68,7 @@
                         <span class="ml-2" aria-hidden="true">+</span>
                       </button>
                     </a>
-                    <div>
+                        <div>
                           <select id="filter_volume" name="filter_volume" class="p-2 ml-2 w-32 text-sm font-medium text-primary-normal rounded-lg border-2 border-primary-normal focus:ring-primary-hover focus:border-primary-hover">
                           <option selected>Pilih volume</option>  
                           @foreach($volumes as $volume)
@@ -76,17 +76,18 @@
                           @endforeach
                           </select>
                           </div>
-                    <a href="/excel-keuangan">
+                        <a href="/excel-keuangan">
                           <button type="submit" class="p-2 ml-4 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
                             <img src="{{asset('/images/excel.png')}}" width="15"/>
                           </button>
                           </a>
-                          <a href="/csv-keuangan">
+                        <a href="/csv-keuangan">
                           <button type="submit" class="p-2 ml-2 bg-primary-normal rounded-lg border-0 border-blue-700 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:shadow-outline-green">
                             <img src="{{asset('/images/csv.png')}}" width="15"/>
                           </button>
                           </a>
-                      @if(\Session::has('alert-success'))              
+                    </div>
+                    @if(\Session::has('alert-success'))              
                         <div class="flex mt-4 p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                           <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                           <span class="sr-only">Info</span>
@@ -103,7 +104,6 @@
                           </div>
                         </div>
                       @endif
-                    </div>
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-2 xl:grid-cols-4">
                       <!-- Card -->

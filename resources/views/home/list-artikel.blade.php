@@ -257,7 +257,7 @@
                           @endforeach
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
-                          @if($accept==2)
+                          @if($accept==2 or $accept==1)
                             <a style="pointer-events: none" href="{{url('/tambah-review/'.$artikel->id_artikel)}}">
                               <button class="px-1 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-normal/20 border border-transparent rounded-md active:bg-primary-normal/70 hover:bg-primary-normal/70 focus:outline-none focus:shadow-outline-green" aria-label="Insert">
                                 <img src="{{asset('images/insert.png')}}" width="15px">

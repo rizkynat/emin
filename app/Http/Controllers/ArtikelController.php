@@ -208,6 +208,7 @@ class ArtikelController extends Controller
         foreach($id_reviews as $id_review){
             $review = DB::table('history_review')->where('id_review',$id_review->id_review)->delete();
         }
+        DB::table('invoice')->where('id_artikel',$id_artikel)->delete();
         $review = DB::table('review')->where('id_artikel',$id_artikel)->delete();      
         $artikel = DB::table('artikel')->where('id_artikel',$id_artikel)->delete();
         return redirect('list-artikel')->with('alert-success','Data artikel berhasil dihapus!');
