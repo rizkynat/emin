@@ -154,7 +154,7 @@ class ArtikelController extends Controller
             'id_volume' => 'required',
             'nama_penulis' => 'required',
             'email_penulis' => 'required|min:4|email|',
-            'judul_artikel' => 'required|max:150',
+            'judul_artikel' => 'required|max:180',
             'instansi' => 'required'
 
         ]);
@@ -172,7 +172,7 @@ class ArtikelController extends Controller
         }else{
             $arrayValidator = $validator->messages();
             
-            return redirect('tambah-artikel')->with('alert','Isi data dengan baik dan lengkap, id artikel tidak boleh sama');
+            return redirect('tambah-artikel')->with('alert','Isi data dengan baik dan lengkap, id artikel tidak boleh sama, judul artikel maksimal 180 karakter');
         }
     }
 
